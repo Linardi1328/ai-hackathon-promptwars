@@ -4,6 +4,14 @@
 
 ---
 
+## Chosen Vertical
+
+**Smart Event Management & Live Operations**
+
+Event Twin directly addresses live operations for hackathons, technology conferences, and demo days. It bridges the gap between static operations dashboards and actionable contingency planning by introducing an operational digital twin with disruption simulation.
+
+---
+
 ## Problem
 
 Organizing large-scale technology events, conferences, and hackathons involves coordinating dozens of concurrent moving parts. Today, organizers rely on fragmented, disconnected tools for registration, judging queues, team assignments, announcements, and leaderboard tracking.
@@ -16,11 +24,32 @@ While traditional operations dashboards show **what is currently happening**, th
 
 Event Twin unifies event operations into a single operational control plane and adds an **operational disruption simulation layer**.
 
-The current MVP demonstrates a four-stage simulation loop:
+Instead of waiting for bottlenecks to derail the event, organizers can simulate operational disruptions in advance, forecast schedule delays, and apply predefined recovery recommendations with a single click.
+
+---
+
+## Approach and Logic
+
+The current MVP demonstrates a four-stage decision and simulation loop:
 
 $$\text{Simulate} \longrightarrow \text{Predict} \longrightarrow \text{Recommend} \longrightarrow \text{Recover}$$
 
-Instead of waiting for bottlenecks to derail the event, organizers can simulate operational disruptions in advance, forecast schedule delays, and apply predefined recovery recommendations with a single click. Automatic disruption detection is planned as part of the future vision.
+1. **Simulate**: The organizer injects an operational disruption scenario (e.g. an evaluator suddenly becoming unavailable).
+2. **Predict**: The system forecasts downstream schedule impact, delays, and evaluator queue bottlenecks.
+3. **Recommend**: The system presents a recovery plan to rebalance affected teams across available evaluators.
+4. **Recover**: The organizer executes the recovery recommendation, immediately updating team assignments, reducing forecasted delay, and restoring event health.
+
+> **Prototype Logic**: For this hackathon prototype, disruption impact forecasting, schedule-delay calculations, and recovery recommendations are powered by **deterministic frontend simulation logic** designed to clearly demonstrate the digital operational twin concept.
+
+---
+
+## How It Works
+
+Event Twin operates through three interconnected role experiences powered by a shared in-memory state engine (`EventContext`):
+
+- **Organizer Dashboard (Primary Cockpit)**: Contains the centerpiece **Event Twin Simulation Hub**, real-time health telemetry gauge, evaluator workload comparison, attendance metrics, and announcement broadcaster.
+- **Judge Portal**: Provides assigned submission lists and direct in-card 4-factor rubric scoring with instant in-session updates to the shared leaderboard.
+- **Participant Hub**: Provides a static QR-style digital pass prototype, table assignment, assigned evaluator room details, live broadcast notices, and public standings.
 
 ---
 
@@ -35,8 +64,6 @@ Event Twin acts as a **digital operational twin** for live events—currently mo
 3. **Impact Predicted**: Event Twin flags **5 affected teams**, forecasts a **28-minute schedule delay** (threatening leaderboard finalization), shows projected overload risk for remaining judges, and drops overall event health to **62%**.
 4. **Recovery Plan Generated**: Event Twin presents a predefined recovery recommendation redistributing affected teams across available judges (Judge 1: +2 teams, Judge 2: +1 team, Judge 4: +2 teams).
 5. **Plan Applied**: The organizer applies the recovery plan. Predicted delay drops from 28 minutes to **4 minutes**, **24 minutes are recovered**, judge workloads update, and event health rises to **94%**.
-
-> **Note**: The current MVP utilizes deterministic frontend simulation data and predefined recovery recommendations to demonstrate this operational twin concept in a fast, reliable hackathon environment.
 
 ---
 
@@ -140,6 +167,17 @@ stateDiagram-v2
       • Teams Rebalanced (J1, J2, J4)
     end note
 ```
+
+---
+
+## Assumptions
+
+- **Single-Event Scope**: The application models a single active hackathon event session.
+- **Demo Scale**: Configured with 8 finalist teams across 2 tracks (`AI Agents`, `Developer Tools`) and 4 domain evaluators.
+- **Primary Disruption Scenario**: Judge 3 (Marcus Vance) dropout with 5 queued teams represents the primary simulated operational failure.
+- **Deterministic Metrics**: Forecasted delay minutes (0m -> 28m -> 4m), recovered time (24m), and event health scores (96% -> 62% -> 94%) are deterministic demo values.
+- **In-Memory State**: State management is single-session and in-memory via React Context without external persistence.
+- **No Production Optimization Solver**: Rebalancing recommendations are predefined for the prototype; no live linear programming solver or multi-user backend is currently connected.
 
 ---
 
