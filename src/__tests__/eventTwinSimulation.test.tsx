@@ -1,11 +1,24 @@
 import React from 'react';
 import { describe, it, expect } from 'vitest';
-import { renderHook, act } from '@testing-library/react';
+import { render, screen, renderHook, act, fireEvent } from '@testing-library/react';
 import { EventProvider, useEventContext } from '../context/EventContext';
+import { OpsAssistant } from '../components/organizer/OpsAssistant';
 
 const wrapper = ({ children }: { children: React.ReactNode }) => (
   <EventProvider>{children}</EventProvider>
 );
+
+// Test harness that includes simulator controls alongside OpsAssistant
+const OpsAssistantTestHarness: React.FC = () => {
+  const { simulateDisruption, applyRecoveryPlan } = useEventContext();
+  return (
+    <div>
+      <button onClick={simulateDisruption}>Trigger Disruption</button>
+      <button onClick={applyRecoveryPlan}>Apply Recovery</button>
+      <OpsAssistant />
+    </div>
+  );
+};
 
 describe('Event Twin Simulation State Transitions & Ops Assistant', () => {
   it('1. Initializes in Healthy state with 96% health and 0 min delay', () => {
@@ -165,5 +178,47 @@ describe('Event Twin Simulation State Transitions & Ops Assistant', () => {
     const newest = result.current.announcements[0];
     expect(newest.title).toBe('Schedule Adjustment: Evaluator Reassignments');
     expect(newest.priority).toBe('urgent');
+  });
+
+  it('6. OpsAssistant dynamically reflects state across Healthy -> Disrupted -> Recovered lifecycle', () => {
+    const { container } = render(
+      <EventProvider>
+        <OpsAssistantTestHarness />
+      </EventProvider>
+    );
+
+    // 1. Healthy State
+    expect(container.textContent).toContain('96% Health');
+    expect(container.textContent).toContain('0 Mins');
+    expect(container.textContent).toContain('Judge 3 (Marcus Vance) currently carries the largest queue concentration with 5 teams');
+
+    // 2. Trigger Disruption
+    const triggerBtn = screen.getByText('Trigger Disruption');
+    act(() => {
+      fireEvent.click(triggerBtn);
+    });
+
+    expect(container.textContent).toContain('62% Health');
+    expect(container.textContent).toContain('+28 Mins');
+    expect(container.textContent).toContain('5 affected teams stranded');
+
+    // 3. Apply Recovery
+    const recoveryBtn = screen.getByText('Apply Recovery');
+    act(() => {
+      fireEvent.click(recoveryBtn);
+    });
+
+    expect(container.textContent).toContain('94% Health');
+    expect(container.textContent).toContain('4 Mins');
+    expect(container.textContent).toContain('The primary disruption has been resolved');
+
+    // Switch query tab to "Why this recovery plan?"
+    const whyRecoveryBtn = screen.getByLabelText('Why this recovery plan?');
+    act(() => {
+      fireEvent.click(whyRecoveryBtn);
+    });
+
+    expect(container.textContent).toContain('24 minutes recovered');
+    expect(container.textContent).toContain('28m → 4m');
   });
 });
