@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Applicant, FormedTeam } from '../../types';
 import { INITIAL_APPLICANTS } from '../../data/mockData';
 import { formBalancedTeams } from '../../utils/teamFormation';
-import { Users, Sparkles, CheckCircle2, XCircle, Info, ChevronDown, ChevronUp, Layers, Award } from 'lucide-react';
+import { Users, Sparkles, CheckCircle2, Info, ChevronDown, ChevronUp, Layers } from 'lucide-react';
 
 export const TeamFormationLab: React.FC = () => {
   const [applicants, setApplicants] = useState<Applicant[]>(INITIAL_APPLICANTS);

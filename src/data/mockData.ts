@@ -1,4 +1,4 @@
-import { Judge, Team, Announcement } from '../types';
+import { Judge, Team, Announcement, Applicant } from '../types';
 
 export const INITIAL_JUDGES: Judge[] = [
   {
@@ -203,7 +203,7 @@ export const INITIAL_ANNOUNCEMENTS: Announcement[] = [
   },
 ];
 
-export const INITIAL_APPLICANTS: import('../types').Applicant[] = [
+export const INITIAL_APPLICANTS: Applicant[] = [
   {
     id: 'app-1',
     name: 'Maya Lin',
@@ -298,7 +298,7 @@ export const INITIAL_APPLICANTS: import('../types').Applicant[] = [
     id: 'app-11',
     name: 'Zane Al-Mansoor',
     primarySkill: 'AI / Data',
-    secondarySkill: 'Developer Tools' as any,
+    secondarySkill: 'Backend',
     trackPreference: 'Developer Tools',
     experienceLevel: 'Junior',
     available: true,

@@ -91,7 +91,7 @@ The **Smart Team Formation Lab** provides a pre-event planning prototype demonst
 - **Deterministic 5-Step Heuristic**:
   1. **Availability Filtering**: Excludes unavailable applicants (`available: false`) so only active attendees are placed.
   2. **Core Discipline Seeding**: Seeds initial team anchors with distinct primary technical disciplines.
-  3. **Greedy Skill Diversity Optimization**: Iteratively assigns remaining candidates to maximize 4/4 discipline coverage (+10 bonus per missing discipline).
+  3. **Greedy Skill Diversity Optimization**: Iteratively assigns remaining candidates to maximize discipline coverage (+10 bonus per missing discipline).
   4. **Track Affinity Resolution**: Prioritizes shared track interests when skill balance is comparable (+4 bonus).
   5. **Team Size Balancing**: Enforces hard capacities to keep cohort sizes balanced within $\pm 1$ participant.
 - **Transparent Decision-Making**: Each generated team card provides a deterministic explanation (*"Why this team?"*) summarizing discipline coverage and track alignment.
@@ -151,7 +151,7 @@ The **Context-Aware Ops Assistant** provides situational analysis and communicat
 ## Demo Flow
 
 1. Open the **Organizer View** to observe the healthy event baseline (96% health, 0m delay, 6/8 check-in baseline).
-2. In the **Smart Team Formation Lab**, inspect the 12-applicant pool and click **Generate Balanced Teams** to observe 3 balanced cohorts with 4/4 discipline coverage and track rationale.
+2. In the **Smart Team Formation Lab**, inspect the 12-applicant pool and click **Generate Balanced Teams** to observe 3 balanced cohorts with 3–4 primary disciplines represented per team and deterministic rationale.
 3. Use the **Check-In Console** to check in Team 7 (*ShieldOps*) using demo pass `TEAM-007`. Observe attendance increase to 7/8 (88%).
 4. Switch to the **Participant Hub** (*ShieldOps*) to verify the digital pass updates from *Not Checked In* to *Checked In*.
 5. Return to the **Organizer View** and query the **Ops Assistant** (*"What is the biggest risk?"*) to inspect queue concentration.
