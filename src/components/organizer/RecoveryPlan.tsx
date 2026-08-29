@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEventContext } from '../../context/EventContext';
-import { Sparkles, ArrowRight, CheckCircle2, ShieldCheck, Zap, RefreshCw } from 'lucide-react';
+import { Sparkles, CheckCircle2, Zap, RefreshCw } from 'lucide-react';
 
 export const RecoveryPlan: React.FC = () => {
   const { simulationState, applyRecoveryPlan, resetSimulation } = useEventContext();

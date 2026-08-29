@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEventContext } from '../../context/EventContext';
-import { AlertTriangle, RotateCcw, Cpu, CheckCircle2, UserX } from 'lucide-react';
+import { AlertTriangle, RotateCcw, Cpu, UserX } from 'lucide-react';
 
 export const DisruptionSelector: React.FC = () => {
   const { simulationState, simulateDisruption, resetSimulation } = useEventContext();

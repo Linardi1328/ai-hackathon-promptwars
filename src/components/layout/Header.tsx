@@ -1,6 +1,6 @@
 import React from 'react';
 import { RoleSwitcher } from './RoleSwitcher';
-import { Activity, Clock, Layers, Sparkles, Radio } from 'lucide-react';
+import { Activity, Clock, Layers } from 'lucide-react';
 import { useEventContext } from '../../context/EventContext';
 
 export const Header: React.FC = () => {

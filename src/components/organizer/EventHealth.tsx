@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEventContext } from '../../context/EventContext';
-import { Activity, Clock, AlertTriangle, ShieldCheck, Zap, Sparkles } from 'lucide-react';
+import { Activity, Clock, AlertTriangle, ShieldCheck, Sparkles } from 'lucide-react';
 
 export const EventHealth: React.FC = () => {
   const { eventHealth, simulationState } = useEventContext();

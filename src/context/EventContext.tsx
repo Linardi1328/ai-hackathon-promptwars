@@ -189,12 +189,36 @@ export const EventProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setAnnouncements((prev) => [recoveryAnn, ...prev]);
   };
 
-  // Simulation: Reset
+  // Simulation: Reset (Restores only disruption state; preserves judge scores & manual announcements)
   const resetSimulation = () => {
     setSimulationState('healthy');
-    setJudges(INITIAL_JUDGES);
-    setTeams(INITIAL_TEAMS);
-    setAnnouncements(INITIAL_ANNOUNCEMENTS);
+
+    // Restore judge availability and original assignments while preserving completed score counts
+    setJudges((prev) =>
+      prev.map((judge) => {
+        const initial = INITIAL_JUDGES.find((j) => j.id === judge.id);
+        return {
+          ...judge,
+          status: 'available',
+          assignedTeamIds: initial ? initial.assignedTeamIds : judge.assignedTeamIds,
+          targetCount: initial ? initial.targetCount : judge.targetCount,
+        };
+      })
+    );
+
+    // Restore team assignedJudgeId to originalJudgeId, clear isAffected, while PRESERVING existing scores & status
+    setTeams((prev) =>
+      prev.map((team) => ({
+        ...team,
+        assignedJudgeId: team.originalJudgeId,
+        isAffected: false,
+      }))
+    );
+
+    // Remove only auto-generated disruption/recovery announcements; keep initial and manually posted announcements
+    setAnnouncements((prev) =>
+      prev.filter((ann) => !ann.id.startsWith('ann-disrupt-') && !ann.id.startsWith('ann-recover-'))
+    );
   };
 
   // Judge scoring

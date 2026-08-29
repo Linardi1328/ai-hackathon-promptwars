@@ -1,9 +1,9 @@
 import React from 'react';
 import { useEventContext } from '../../context/EventContext';
-import { UserCheck, UserX, AlertCircle, MapPin, Briefcase } from 'lucide-react';
+import { UserCheck } from 'lucide-react';
 
 export const JudgeStatus: React.FC = () => {
-  const { judges, simulationState } = useEventContext();
+  const { judges } = useEventContext();
 
   return (
     <div className="bg-slate-900/70 border border-slate-800 rounded-xl p-4 shadow-lg space-y-3">

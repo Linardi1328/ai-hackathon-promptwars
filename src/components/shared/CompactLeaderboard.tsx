@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEventContext } from '../../context/EventContext';
-import { Trophy, CheckCircle2, Hourglass, ExternalLink } from 'lucide-react';
+import { Trophy } from 'lucide-react';
 
 export const CompactLeaderboard: React.FC<{ highlightTeamId?: string }> = ({ highlightTeamId }) => {
   const { teams, judges } = useEventContext();

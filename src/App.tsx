@@ -4,7 +4,7 @@ import { Header } from './components/layout/Header';
 import { OrganizerDashboard } from './components/organizer/OrganizerDashboard';
 import { JudgeView } from './components/judge/JudgeView';
 import { ParticipantView } from './components/participant/ParticipantView';
-import { Sparkles, Cpu, Layers } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 
 const MainView: React.FC = () => {
   const { activeRole } = useEventContext();

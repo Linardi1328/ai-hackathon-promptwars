@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useEventContext } from '../../context/EventContext';
 import { Team } from '../../types';
-import { UserCheck, Award, CheckCircle2, Clock, Send, Sparkles, AlertCircle } from 'lucide-react';
+import { UserCheck, CheckCircle2, Clock, Send, AlertCircle } from 'lucide-react';
 
 export const JudgeView: React.FC = () => {
   const {

@@ -3,7 +3,7 @@ import { DisruptionSelector } from './DisruptionSelector';
 import { ImpactPreview } from './ImpactPreview';
 import { JudgeWorkloadComparison } from './JudgeWorkloadComparison';
 import { RecoveryPlan } from './RecoveryPlan';
-import { Sparkles, Cpu, Layers } from 'lucide-react';
+import { Cpu } from 'lucide-react';
 
 export const EventTwin: React.FC = () => {
   return (

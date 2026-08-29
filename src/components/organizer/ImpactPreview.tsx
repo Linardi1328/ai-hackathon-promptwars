@@ -1,11 +1,9 @@
 import React from 'react';
 import { useEventContext } from '../../context/EventContext';
-import { AlertOctagon, Clock, Users, Trophy, AlertTriangle, ShieldCheck } from 'lucide-react';
+import { AlertOctagon, Clock, Users, AlertTriangle, ShieldCheck } from 'lucide-react';
 
 export const ImpactPreview: React.FC = () => {
-  const { simulationState, teams, eventHealth } = useEventContext();
-
-  const affectedTeams = teams.filter((t) => t.isAffected || (simulationState === 'disrupted' && t.assignedJudgeId === 'judge-3'));
+  const { simulationState, eventHealth } = useEventContext();
 
   return (
     <div className="bg-slate-950/80 rounded-xl p-4 border border-slate-800 flex flex-col justify-between space-y-3">

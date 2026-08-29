@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEventContext } from '../../context/EventContext';
-import { Users, CheckCircle2, Wifi, Clock, Hourglass, Sparkles, MapPin, Trophy } from 'lucide-react';
+import { Users, CheckCircle2, Hourglass, MapPin } from 'lucide-react';
 import { CompactLeaderboard } from '../shared/CompactLeaderboard';
 
 export const ParticipantView: React.FC = () => {
