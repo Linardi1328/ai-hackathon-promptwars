@@ -12,6 +12,12 @@ dist
 dist-ssr
 *.local
 
+# Environment variables & secrets
+.env
+.env.*
+*.pem
+*.key
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -25,3 +31,6 @@ dist-ssr
 
 # Firebase
 .firebase
+
+# Scratch / Temp
+scratch/
