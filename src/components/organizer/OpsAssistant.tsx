@@ -17,30 +17,28 @@ export const OpsAssistant: React.FC = () => {
   const delayMin = eventHealth.predictedDelayMin;
   const recoveredMin = eventHealth.recoveredMin;
   const judge3 = judges.find((j) => j.id === 'judge-3');
-  const unavailableJudge = judges.find((j) => j.status === 'unavailable');
 
   // Derive responses deterministically based on EventContext state
   const getAssistantResponse = () => {
     switch (simulationState) {
       case 'disrupted': {
-        const judgeName = unavailableJudge?.name || judge3?.name || 'Judge 3 (Marcus Vance)';
         return {
           risk: {
-            title: 'Disruption Risk Analysis',
+            title: 'Current Risk',
             tag: `Critical • ${healthScore}% Health`,
             tagColor: 'bg-rose-500/20 text-rose-300 border-rose-500/30',
-            content: `${judgeName} is unavailable with ${affectedTeamsCount} affected teams stranded. Predicted schedule delay has increased to ${delayMin} minutes, dropping event health to ${healthScore}%. Remaining evaluators face projected overload risk, placing leaderboard finalization at risk.`,
+            content: `Judge 3 is unavailable, affecting ${affectedTeamsCount} teams and creating a projected ${delayMin}-minute delay.`,
             metrics: [
-              { label: 'Stranded Teams', value: `${affectedTeamsCount} Teams`, color: 'text-rose-400' },
+              { label: 'Affected Teams', value: `${affectedTeamsCount} Teams`, color: 'text-rose-400' },
               { label: 'Projected Delay', value: `+${delayMin} Mins`, color: 'text-amber-400' },
-              { label: 'Event Health', value: `${healthScore}% (Warning)`, color: 'text-rose-400' },
+              { label: 'Event Health', value: `${healthScore}%`, color: 'text-rose-400' },
             ],
           },
           recovery: {
-            title: 'Recovery Plan Rationale',
-            tag: 'Redistribution Heuristic',
+            title: 'Why This Recovery?',
+            tag: 'Queue Redistribution',
             tagColor: 'bg-amber-500/20 text-amber-300 border-amber-500/30',
-            content: `The recommended recovery plan redistributes the ${affectedTeamsCount} affected teams: Judge 1 receives 2 affected teams (AI Track), Judge 2 receives 1 affected team (DevTools), and Judge 4 receives 2 affected teams (Systems). This reduces concentration on the unavailable evaluator and balances the remaining queues.`,
+            content: `The recovery plan spreads the ${affectedTeamsCount} stranded teams across Judges 1, 2, and 4 to remove the bottleneck and recover schedule delay.`,
             metrics: [
               { label: 'Judge 1 (Chen)', value: '+2 Teams', color: 'text-emerald-400' },
               { label: 'Judge 2 (Kim)', value: '+1 Team', color: 'text-emerald-400' },
@@ -48,11 +46,11 @@ export const OpsAssistant: React.FC = () => {
             ],
           },
           announcement: {
-            title: 'Draft Participant Operational Update',
-            tag: 'Operational Notice',
+            title: 'Participant Update',
+            tag: 'Schedule Notice',
             tagColor: 'bg-amber-500/20 text-amber-300 border-amber-500/30',
             subject: 'Schedule Adjustment: Evaluator Reassignments',
-            content: 'Evaluator room assignments are currently being adjusted for Round 1. Affected teams will receive updated assignments on their dashboard. Minor schedule delays may occur as queues rebalance.',
+            content: 'Evaluator room assignments are currently being adjusted for Round 1. Affected teams will receive updated assignments on their dashboard.',
             priority: 'urgent' as const,
           },
         };
@@ -60,10 +58,10 @@ export const OpsAssistant: React.FC = () => {
       case 'recovered':
         return {
           risk: {
-            title: 'Post-Recovery Risk Assessment',
+            title: 'Current Risk',
             tag: `Mitigated • ${healthScore}% Health`,
             tagColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
-            content: `The primary disruption has been resolved. Only ${delayMin} minutes projected delay remains with event health restored to ${healthScore}%. Judge 3 remains unavailable, but all 5 affected teams have valid reassigned evaluators.`,
+            content: `All 5 affected teams have been reassigned. Only ${delayMin} minutes of projected delay remains.`,
             metrics: [
               { label: 'Projected Delay', value: `${delayMin} Mins`, color: 'text-emerald-400' },
               { label: 'Event Health', value: `${healthScore}% (Restored)`, color: 'text-emerald-400' },
@@ -71,10 +69,10 @@ export const OpsAssistant: React.FC = () => {
             ],
           },
           recovery: {
-            title: 'Applied Recovery Impact Breakdown',
-            tag: 'Payoff Analysis',
+            title: 'Why This Recovery?',
+            tag: 'Payoff Summary',
             tagColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
-            content: `By redistributing the 5 teams across Judges 1, 2, and 4, predicted delay improved from 28 to ${delayMin} minutes (${recoveredMin} minutes recovered) and event health improved from 62% to ${healthScore}%.`,
+            content: `Redistributing the 5 teams reduced delay from 28 to ${delayMin} minutes (${recoveredMin} minutes recovered) and restored event health to ${healthScore}%.`,
             metrics: [
               { label: 'Delay Reduction', value: `28m → ${delayMin}m`, color: 'text-emerald-400' },
               { label: 'Time Recovered', value: `⚡ ${recoveredMin} Mins`, color: 'text-emerald-400' },
@@ -82,11 +80,11 @@ export const OpsAssistant: React.FC = () => {
             ],
           },
           announcement: {
-            title: 'Draft Participant Operational Update',
-            tag: 'Normalization Notice',
+            title: 'Participant Update',
+            tag: 'Resumed Notice',
             tagColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
             subject: 'Judging Resumed: Evaluator Assignments Updated',
-            content: `Evaluator assignments have been updated and affected teams have been reassigned. Schedule impact has been reduced to approximately ${delayMin} minutes, and judging is returning to normal operations.`,
+            content: `Evaluator assignments have been updated and affected teams have been reassigned. Projected delay is now approximately ${delayMin} minutes.`,
             priority: 'normal' as const,
           },
         };
@@ -95,10 +93,10 @@ export const OpsAssistant: React.FC = () => {
         const j3Count = judge3?.assignedTeamIds.length ?? 5;
         return {
           risk: {
-            title: 'Nominal Operational Risk Assessment',
+            title: 'Current Risk',
             tag: `Nominal • ${healthScore}% Health`,
             tagColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
-            content: `Operations are healthy with event health at ${healthScore}% and predicted delay at ${delayMin} minutes. All ${availableJudgesCount} judges are available. However, Judge 3 (Marcus Vance) currently carries the largest queue concentration with ${j3Count} teams, making evaluator availability the largest current operational exposure.`,
+            content: `Operations are healthy. Judge 3 currently holds the largest queue with ${j3Count} teams, making evaluator availability the main operational risk.`,
             metrics: [
               { label: 'Projected Delay', value: `${delayMin} Mins`, color: 'text-emerald-400' },
               { label: 'Available Judges', value: `${availableJudgesCount} / ${totalJudgesCount} Online`, color: 'text-emerald-400' },
@@ -106,22 +104,22 @@ export const OpsAssistant: React.FC = () => {
             ],
           },
           recovery: {
-            title: 'Recovery Strategy Status',
-            tag: 'Monitoring Standby',
+            title: 'Why This Recovery?',
+            tag: 'Standby',
             tagColor: 'bg-slate-800 text-slate-300 border-slate-700',
-            content: 'No recovery action is currently required. Event Twin is monitoring the current judge/team allocation and queue pacing in real time.',
+            content: 'No recovery action is required while event operations are healthy.',
             metrics: [
               { label: 'Recovery Status', value: 'Standby', color: 'text-slate-400' },
-              { label: 'Schedule Pace', value: 'Nominal', color: 'text-emerald-400' },
+              { label: 'Schedule Pace', value: 'On Time', color: 'text-emerald-400' },
               { label: 'Action Required', value: 'None', color: 'text-slate-400' },
             ],
           },
           announcement: {
-            title: 'Draft Participant Operational Update',
+            title: 'Participant Update',
             tag: 'Routine Notice',
             tagColor: 'bg-indigo-500/20 text-indigo-300 border-indigo-500/30',
             subject: 'Judging Schedule On Track',
-            content: 'Judging is operating normally across all evaluation rooms. Please monitor the live board and announcements for any schedule or assignment changes.',
+            content: 'Judging is operating normally across all evaluation rooms. Please monitor announcements for any schedule updates.',
             priority: 'normal' as const,
           },
         };
@@ -152,7 +150,7 @@ export const OpsAssistant: React.FC = () => {
               </h3>
               <span className="inline-flex items-center gap-1 text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
                 <Sparkles className="w-2.5 h-2.5" />
-                Context-Aware Ops Assistant
+                Ops Assistant
               </span>
             </div>
             <p className="text-xs text-slate-400">

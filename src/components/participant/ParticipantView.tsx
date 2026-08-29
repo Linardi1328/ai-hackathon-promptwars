@@ -16,15 +16,15 @@ export const ParticipantView: React.FC = () => {
         <div>
           <h1 className="text-lg font-bold text-white flex items-center gap-2">
             <Users className="w-5 h-5 text-emerald-400" />
-            Participant Live Hub
+            Participant Hub
           </h1>
           <p className="text-xs text-slate-400">
-            Event credentials, assigned evaluation room, and broadcast notices
+            Event credentials, assigned evaluator room, and announcements
           </p>
         </div>
 
         <div className="flex items-center gap-2 bg-slate-950/80 px-3 py-1.5 rounded-lg border border-slate-800">
-          <label htmlFor="team-select" className="text-xs text-slate-400">Viewing Team:</label>
+          <label htmlFor="team-select" className="text-xs text-slate-400">Team:</label>
           <select
             id="team-select"
             value={currentTeam.id}
@@ -44,13 +44,13 @@ export const ParticipantView: React.FC = () => {
       {/* Grid: QR Pass + Team Assignment Details */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-5">
         
-        {/* Digital Pass Prototype */}
+        {/* Digital Pass */}
         <div className="md:col-span-4 bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-xl flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
               <span className="text-xs font-bold text-white flex items-center gap-1.5">
                 <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
-                Digital Pass Prototype
+                Digital Pass
               </span>
 
               {currentTeam.checkedIn ? (
@@ -69,7 +69,7 @@ export const ParticipantView: React.FC = () => {
               <div className="p-3 bg-white rounded-xl shadow-md border border-emerald-500/40">
                 <svg
                   role="img"
-                  aria-label={`Static digital QR pass prototype for ${currentTeam.name} at Table ${currentTeam.tableNumber}`}
+                  aria-label={`Static digital QR pass for ${currentTeam.name} at Table ${currentTeam.tableNumber}`}
                   className="w-32 h-32"
                   viewBox="0 0 100 100"
                   fill="none"
@@ -108,7 +108,7 @@ export const ParticipantView: React.FC = () => {
             </div>
 
             <div className="mt-3 p-2 bg-slate-950 rounded-lg border border-slate-800 text-center">
-              <span className="text-[10px] uppercase font-bold text-slate-500 block">Registration Pass Code</span>
+              <span className="text-[10px] uppercase font-bold text-slate-500 block">Pass Code</span>
               <span className="text-sm font-mono font-bold text-emerald-400 tracking-wider">
                 {currentTeam.passCode}
               </span>
@@ -146,7 +146,7 @@ export const ParticipantView: React.FC = () => {
           <div className="bg-slate-950/70 p-3.5 rounded-xl border border-slate-800">
             <div className="text-xs font-bold text-slate-300 uppercase mb-2 flex items-center gap-1.5">
               <MapPin className="w-3.5 h-3.5 text-emerald-400" />
-              Assigned Evaluator Room
+              Assigned Evaluator
             </div>
 
             {assignedJudge ? (
@@ -176,8 +176,8 @@ export const ParticipantView: React.FC = () => {
 
           {/* Announcements Ticker */}
           <div className="space-y-2">
-            <span className="text-xs font-bold text-slate-400 uppercase">Broadcast Notices</span>
-            <div className="space-y-1.5 max-h-32 overflow-y-auto" role="feed" aria-label="Participant broadcast notices">
+            <span className="text-xs font-bold text-slate-400 uppercase">Announcements</span>
+            <div className="space-y-1.5 max-h-32 overflow-y-auto" role="feed" aria-label="Participant announcements">
               {announcements.map((ann) => (
                 <div key={ann.id} className="bg-slate-950 p-2.5 rounded-lg border border-slate-800 text-xs">
                   <div className="flex justify-between font-bold text-white mb-0.5">

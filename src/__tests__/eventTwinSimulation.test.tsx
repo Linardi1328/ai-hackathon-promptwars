@@ -3,7 +3,6 @@ import { describe, it, expect } from 'vitest';
 import { render, screen, renderHook, act, fireEvent } from '@testing-library/react';
 import { EventProvider, useEventContext } from '../context/EventContext';
 import { OpsAssistant } from '../components/organizer/OpsAssistant';
-import { CheckInConsole } from '../components/organizer/CheckInConsole';
 
 const wrapper = ({ children }: { children: React.ReactNode }) => (
   <EventProvider>{children}</EventProvider>
@@ -215,7 +214,7 @@ describe('Event Twin Simulation State Transitions, Ops Assistant & Check-In', ()
     // 1. Healthy State
     expect(container.textContent).toContain('96% Health');
     expect(container.textContent).toContain('0 Mins');
-    expect(container.textContent).toContain('Judge 3 (Marcus Vance) currently carries the largest queue concentration with 5 teams');
+    expect(container.textContent).toContain('Judge 3 currently holds the largest queue with 5 teams');
 
     // 2. Trigger Disruption
     const triggerBtn = screen.getByText('Trigger Disruption');
@@ -223,9 +222,9 @@ describe('Event Twin Simulation State Transitions, Ops Assistant & Check-In', ()
       fireEvent.click(triggerBtn);
     });
 
-    expect(container.textContent).toContain('62% Health');
+    expect(container.textContent).toContain('62%');
     expect(container.textContent).toContain('+28 Mins');
-    expect(container.textContent).toContain('5 affected teams stranded');
+    expect(container.textContent).toContain('Judge 3 is unavailable, affecting 5 teams');
 
     // 3. Apply Recovery
     const recoveryBtn = screen.getByText('Apply Recovery');
@@ -235,7 +234,7 @@ describe('Event Twin Simulation State Transitions, Ops Assistant & Check-In', ()
 
     expect(container.textContent).toContain('94% Health');
     expect(container.textContent).toContain('4 Mins');
-    expect(container.textContent).toContain('The primary disruption has been resolved');
+    expect(container.textContent).toContain('All 5 affected teams have been reassigned');
 
     // Switch query tab to "Why this recovery plan?"
     const whyRecoveryBtn = screen.getByLabelText('Why this recovery plan?');

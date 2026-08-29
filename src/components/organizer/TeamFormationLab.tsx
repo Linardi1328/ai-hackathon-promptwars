@@ -17,7 +17,6 @@ export const TeamFormationLab: React.FC = () => {
     setApplicants((prev) =>
       prev.map((a) => (a.id === applicantId ? { ...a, available: !a.available } : a))
     );
-    // If teams were already formed, clear them so user explicitly regenerates
     if (formedTeams) {
       setFormedTeams(null);
     }
@@ -45,15 +44,15 @@ export const TeamFormationLab: React.FC = () => {
           <div>
             <div className="flex items-center gap-2">
               <h3 className="text-sm sm:text-base font-bold text-white tracking-tight">
-                Smart Team Formation Lab
+                Smart Team Formation
               </h3>
               <span className="inline-flex items-center gap-1 text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-300 border border-purple-500/20">
                 <Sparkles className="w-2.5 h-2.5" />
-                Pre-Event Planning Prototype
+                Pre-Event Prototype
               </span>
             </div>
             <p className="text-xs text-slate-400">
-              Deterministic skill & interest matching prototype for unteamed applicant cohorts
+              Build balanced teams from skills, interests, experience, and availability.
             </p>
           </div>
         </div>
@@ -67,7 +66,7 @@ export const TeamFormationLab: React.FC = () => {
       <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-800/80 flex items-start gap-2.5 text-xs text-slate-400">
         <Info className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
         <p className="leading-relaxed">
-          <strong className="text-slate-200">Pre-Event Simulation Notice:</strong> This laboratory models automated applicant cohort grouping prior to project kickoff. Formed teams operate independently from the 8 live-event finalist teams evaluated during live judging operations.
+          <strong className="text-slate-200">Pre-Event Simulation:</strong> Demonstrates team formation prior to kickoff. Formed teams operate separately from the 8 live finalist teams evaluated during live judging.
         </p>
       </div>
 
@@ -78,7 +77,7 @@ export const TeamFormationLab: React.FC = () => {
         <div className="lg:col-span-5 bg-slate-950/80 p-4 rounded-xl border border-slate-800/90 flex flex-col justify-between space-y-3">
           <div className="space-y-2">
             <span className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
-              Applicant Pool Parameters
+              Applicant Pool
             </span>
 
             <div className="grid grid-cols-3 gap-2">
@@ -98,9 +97,9 @@ export const TeamFormationLab: React.FC = () => {
               </div>
             </div>
 
-            {/* Skill Distribution Pill List */}
+            {/* Skill Breakdown */}
             <div className="pt-2 border-t border-slate-900 space-y-1">
-              <span className="text-[10px] uppercase font-bold text-slate-500">Discipline Breakdown</span>
+              <span className="text-[10px] uppercase font-bold text-slate-500">Skills Available</span>
               <div className="flex flex-wrap gap-1.5">
                 {Object.entries(skillCounts).map(([skill, count]) => (
                   <span key={skill} className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-900 text-slate-300 border border-slate-800">
@@ -113,7 +112,7 @@ export const TeamFormationLab: React.FC = () => {
 
           <button
             onClick={handleGenerate}
-            aria-label="Generate Balanced Teams using deterministic matching heuristic"
+            aria-label="Generate Balanced Teams"
             className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs sm:text-sm font-bold shadow-lg shadow-purple-950/50 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400"
           >
             <Sparkles className="w-4 h-4" />
@@ -125,7 +124,7 @@ export const TeamFormationLab: React.FC = () => {
         <div className="lg:col-span-7 bg-slate-950/80 p-4 rounded-xl border border-slate-800/90 space-y-2">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-slate-300 uppercase tracking-wider">
-              Cohort Applicants (12 Candidates)
+              Applicants (12 Total)
             </span>
             <span className="text-[10px] text-slate-500 font-mono">Click status to toggle</span>
           </div>
@@ -175,15 +174,15 @@ export const TeamFormationLab: React.FC = () => {
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1.5">
               <CheckCircle2 className="w-3.5 h-3.5 text-purple-400" />
-              Generated Formations (3 Balanced Cohorts)
+              Generated Teams
             </span>
             <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
-              Deterministic Matching Complete
+              3 Teams Created
             </span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-            {formedTeams.map((team, idx) => (
+            {formedTeams.map((team) => (
               <div
                 key={team.id}
                 className="bg-slate-950/90 border border-slate-800 rounded-xl p-4 flex flex-col justify-between space-y-3 shadow-lg"
@@ -231,12 +230,12 @@ export const TeamFormationLab: React.FC = () => {
           type="button"
           onClick={() => setShowLogic(!showLogic)}
           aria-expanded={showLogic}
-          aria-label="Toggle explanation of deterministic matching logic"
+          aria-label="Toggle explanation of how matching works"
           className="flex items-center justify-between w-full text-xs font-semibold text-slate-400 hover:text-slate-200 transition-colors cursor-pointer py-1"
         >
           <span className="flex items-center gap-1.5">
             <Layers className="w-3.5 h-3.5 text-purple-400" />
-            Matching Logic & Heuristic Criteria
+            How Matching Works
           </span>
           {showLogic ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
         </button>
@@ -244,14 +243,14 @@ export const TeamFormationLab: React.FC = () => {
         {showLogic && (
           <div className="mt-2.5 p-3.5 bg-slate-950/90 rounded-xl border border-slate-800 text-xs text-slate-300 space-y-2 leading-relaxed">
             <p className="font-bold text-white text-[11px] uppercase tracking-wider">
-              Deterministic 5-Step Matching Process:
+              Deterministic matching heuristic:
             </p>
             <ol className="list-decimal list-inside space-y-1 text-slate-300 text-[11px]">
-              <li><strong className="text-white">Filter Availability:</strong> Exclude any candidates marked unavailable to avoid forming incomplete teams.</li>
-              <li><strong className="text-white">Core Discipline Seeding:</strong> Seed initial team slots with diverse primary capabilities (Frontend, Backend, AI/Data, Product/UX).</li>
-              <li><strong className="text-white">Greedy Skill Diversity Optimization:</strong> Assign subsequent candidates by awarding maximum heuristic score (+10) to missing discipline coverage.</li>
-              <li><strong className="text-white">Track Affinity Resolution:</strong> When skill coverage is equivalent, prioritize placing applicants into their preferred track (+4 bonus).</li>
-              <li><strong className="text-white">Team Size Balancing:</strong> Enforce hard capacities so all generated cohorts remain balanced within &plusmn;1 member.</li>
+              <li><strong className="text-white">Filter Availability:</strong> Exclude unavailable applicants from team assignments.</li>
+              <li><strong className="text-white">Seed Core Disciplines:</strong> Seed teams with distinct technical disciplines (Frontend, Backend, AI/Data, Product/UX).</li>
+              <li><strong className="text-white">Balance Skill Coverage:</strong> Assign remaining applicants to maximize discipline diversity per team.</li>
+              <li><strong className="text-white">Align Track Preferences:</strong> Match applicants with shared track interests when skill balance is comparable.</li>
+              <li><strong className="text-white">Maintain Team Sizes:</strong> Keep all team sizes balanced within &plusmn;1 member.</li>
             </ol>
           </div>
         )}

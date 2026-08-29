@@ -60,16 +60,16 @@ export const JudgeView: React.FC = () => {
         <div>
           <h1 className="text-lg font-bold text-white flex items-center gap-2">
             <UserCheck className="w-5 h-5 text-emerald-400" />
-            Judge Evaluation Portal
+            Judge Portal
           </h1>
           <p className="text-xs text-slate-400">
-            Inline rubric evaluation for assigned finalist teams
+            Score assigned finalist projects using the 4-factor rubric
           </p>
         </div>
 
         {/* Persona Selector */}
         <div className="flex items-center gap-2 bg-slate-950/80 px-3 py-1.5 rounded-lg border border-slate-800">
-          <label htmlFor="judge-select" className="text-xs text-slate-400">Current Evaluator:</label>
+          <label htmlFor="judge-select" className="text-xs text-slate-400">Evaluator:</label>
           <select
             id="judge-select"
             value={currentJudge.id}
@@ -112,18 +112,24 @@ export const JudgeView: React.FC = () => {
             </span>
           ) : (
             <span className="px-3 py-1 bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 rounded-lg text-xs font-bold">
-              {assignedTeams.length} Assigned Submissions
+              {assignedTeams.length} Assigned Projects
             </span>
           )}
         </div>
       </div>
 
-      {/* Assigned Submissions with Direct Inline Rubric Scoring */}
+      {/* Assigned Projects Section */}
       <div className="space-y-4">
+        <div className="flex items-center justify-between px-1">
+          <h2 className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+            Assigned Projects ({assignedTeams.length})
+          </h2>
+        </div>
+
         {assignedTeams.length === 0 ? (
           <div className="bg-slate-900/40 border border-slate-800 rounded-xl p-8 text-center text-slate-400 text-xs">
             <AlertCircle className="w-8 h-8 mx-auto text-slate-500 mb-2" />
-            No teams assigned to this evaluator currently.
+            No projects assigned to this evaluator currently.
           </div>
         ) : (
           assignedTeams.map((team) => {

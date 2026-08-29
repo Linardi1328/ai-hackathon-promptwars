@@ -53,15 +53,15 @@ export const CheckInConsole: React.FC = () => {
           <div>
             <div className="flex items-center gap-2">
               <h3 className="text-sm sm:text-base font-bold text-white tracking-tight">
-                Registration & Check-In Console
+                Participant Check-In
               </h3>
               <span className="inline-flex items-center gap-1 text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
                 <Sparkles className="w-2.5 h-2.5" />
-                QR / Pass Verification Prototype
+                Pass Verification Prototype
               </span>
             </div>
             <p className="text-xs text-slate-400">
-              In-session registration pass validation and team attendance tracking
+              Verify participant passes and track attendance.
             </p>
           </div>
         </div>
