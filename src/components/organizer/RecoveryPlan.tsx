@@ -14,7 +14,7 @@ export const RecoveryPlan: React.FC = () => {
             4. Automated Recovery Plan
           </span>
           <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-            Intelligent Rebalancing
+            Predefined Rebalancing
           </span>
         </div>
 
@@ -51,7 +51,8 @@ export const RecoveryPlan: React.FC = () => {
         {simulationState === 'disrupted' && (
           <button
             onClick={applyRecoveryPlan}
-            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-lg shadow-emerald-950/60 transition-all cursor-pointer"
+            aria-label="Apply predefined recovery plan to recover 24 minutes"
+            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-lg shadow-emerald-950/60 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
           >
             <Zap className="w-4 h-4" />
             <span>Apply Recovery Plan (Recover 24 Mins)</span>
@@ -67,7 +68,8 @@ export const RecoveryPlan: React.FC = () => {
 
             <button
               onClick={resetSimulation}
-              className="flex items-center gap-1 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium border border-slate-700 transition-colors"
+              aria-label="Reset simulation to healthy baseline"
+              className="flex items-center gap-1 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium border border-slate-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
             >
               <RefreshCw className="w-3.5 h-3.5" />
               <span>Reset</span>

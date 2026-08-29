@@ -19,16 +19,18 @@ export const ParticipantView: React.FC = () => {
             Participant Live Hub
           </h1>
           <p className="text-xs text-slate-400">
-            Event credentials, assigned evaluation room, and real-time announcements
+            Event credentials, assigned evaluation room, and broadcast notices
           </p>
         </div>
 
         <div className="flex items-center gap-2 bg-slate-950/80 px-3 py-1.5 rounded-lg border border-slate-800">
-          <span className="text-xs text-slate-400">Viewing Team:</span>
+          <label htmlFor="team-select" className="text-xs text-slate-400">Viewing Team:</label>
           <select
+            id="team-select"
             value={currentTeam.id}
+            aria-label="Select participant team persona"
             onChange={(e) => setActiveTeamId(e.target.value)}
-            className="bg-transparent text-xs font-bold text-emerald-400 focus:outline-none cursor-pointer"
+            className="bg-transparent text-xs font-bold text-emerald-400 focus:outline-none cursor-pointer focus-visible:ring-2 focus-visible:ring-emerald-400 rounded"
           >
             {teams.map((t) => (
               <option key={t.id} value={t.id} className="bg-slate-900 text-white">
@@ -55,7 +57,14 @@ export const ParticipantView: React.FC = () => {
             {/* Static QR Code Representation */}
             <div className="flex justify-center my-2">
               <div className="p-3 bg-white rounded-xl shadow-md border border-emerald-500/40">
-                <svg className="w-32 h-32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg
+                  role="img"
+                  aria-label={`Static digital QR pass for ${currentTeam.name} at Table ${currentTeam.tableNumber}`}
+                  className="w-32 h-32"
+                  viewBox="0 0 100 100"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
                   <rect x="5" y="5" width="28" height="28" rx="4" fill="#0f172a" />
                   <rect x="9" y="9" width="20" height="20" rx="2" fill="#ffffff" />
                   <rect x="13" y="13" width="12" height="12" rx="1" fill="#0f172a" />
@@ -128,7 +137,7 @@ export const ParticipantView: React.FC = () => {
                 <div className="flex items-center gap-3">
                   <img
                     src={assignedJudge.avatar}
-                    alt={assignedJudge.name}
+                    alt={`Avatar of ${assignedJudge.name}`}
                     className="w-10 h-10 rounded-lg object-cover border border-slate-700"
                   />
                   <div>
@@ -150,8 +159,8 @@ export const ParticipantView: React.FC = () => {
 
           {/* Announcements Ticker */}
           <div className="space-y-2">
-            <span className="text-xs font-bold text-slate-400 uppercase">Live Broadcasts</span>
-            <div className="space-y-1.5 max-h-32 overflow-y-auto">
+            <span className="text-xs font-bold text-slate-400 uppercase">Broadcast Notices</span>
+            <div className="space-y-1.5 max-h-32 overflow-y-auto" role="feed" aria-label="Participant broadcast notices">
               {announcements.map((ann) => (
                 <div key={ann.id} className="bg-slate-950 p-2.5 rounded-lg border border-slate-800 text-xs">
                   <div className="flex justify-between font-bold text-white mb-0.5">

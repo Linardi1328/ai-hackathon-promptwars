@@ -24,12 +24,16 @@ export const RoleSwitcher: React.FC = () => {
       id: 'participant',
       label: 'Participant Hub',
       icon: Users,
-      description: 'Event pass, team status & live rankings',
+      description: 'Event pass, team status & in-session rankings',
     },
   ];
 
   return (
-    <div className="flex items-center gap-1.5 p-1 bg-slate-900/90 rounded-xl border border-slate-800 shadow-inner">
+    <div
+      role="tablist"
+      aria-label="Event role navigation"
+      className="flex items-center gap-1.5 p-1 bg-slate-900/90 rounded-xl border border-slate-800 shadow-inner"
+    >
       {roles.map((role) => {
         const Icon = role.icon;
         const isActive = activeRole === role.id;
@@ -37,8 +41,11 @@ export const RoleSwitcher: React.FC = () => {
         return (
           <button
             key={role.id}
+            role="tab"
+            aria-selected={isActive}
+            aria-label={`${role.label}: ${role.description}`}
             onClick={() => setActiveRole(role.id)}
-            className={`relative flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs md:text-sm font-medium transition-all duration-200 ${
+            className={`relative flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs md:text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 ${
               isActive
                 ? 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/40 shadow-sm shadow-emerald-950/50'
                 : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 border border-transparent'
