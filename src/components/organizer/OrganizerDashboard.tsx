@@ -1,6 +1,7 @@
 import React from 'react';
 import { EventHealth } from './EventHealth';
 import { EventTwin } from './EventTwin';
+import { OpsAssistant } from './OpsAssistant';
 import { QuickMetrics } from './QuickMetrics';
 import { JudgeStatus } from './JudgeStatus';
 import { Announcements } from './Announcements';
@@ -15,13 +16,16 @@ export const OrganizerDashboard: React.FC = () => {
       {/* 2. Centerpiece: Event Twin Disruption Simulator Hub */}
       <EventTwin />
 
-      {/* 3. Quick Metrics Bar */}
+      {/* 3. Event Twin Context-Aware Ops Assistant */}
+      <OpsAssistant />
+
+      {/* 4. Quick Metrics Bar */}
       <QuickMetrics />
 
-      {/* 4. Judge Status Grid */}
+      {/* 5. Judge Status Grid */}
       <JudgeStatus />
 
-      {/* 5. Announcements & Live Leaderboard */}
+      {/* 6. Announcements & Live Leaderboard */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
         <div className="lg:col-span-4">
           <Announcements />
