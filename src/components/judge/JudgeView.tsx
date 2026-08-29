@@ -69,11 +69,13 @@ export const JudgeView: React.FC = () => {
 
         {/* Persona Selector */}
         <div className="flex items-center gap-2 bg-slate-950/80 px-3 py-1.5 rounded-lg border border-slate-800">
-          <span className="text-xs text-slate-400">Current Evaluator:</span>
+          <label htmlFor="judge-select" className="text-xs text-slate-400">Current Evaluator:</label>
           <select
+            id="judge-select"
             value={currentJudge.id}
+            aria-label="Select active judge persona"
             onChange={(e) => setActiveJudgeId(e.target.value)}
-            className="bg-transparent text-xs font-bold text-emerald-400 focus:outline-none cursor-pointer"
+            className="bg-transparent text-xs font-bold text-emerald-400 focus:outline-none cursor-pointer focus-visible:ring-2 focus-visible:ring-emerald-400 rounded"
           >
             {judges.map((j) => (
               <option key={j.id} value={j.id} className="bg-slate-900 text-white">
@@ -89,7 +91,7 @@ export const JudgeView: React.FC = () => {
         <div className="flex items-center gap-3">
           <img
             src={currentJudge.avatar}
-            alt={currentJudge.name}
+            alt={`Avatar of ${currentJudge.name}`}
             className="w-12 h-12 rounded-xl object-cover border border-slate-700"
           />
           <div>
@@ -166,73 +168,84 @@ export const JudgeView: React.FC = () => {
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-slate-950/60 p-3 rounded-xl border border-slate-800/80">
                   <div>
                     <div className="flex justify-between text-xs mb-1">
-                      <span className="text-slate-400 font-medium">Innovation</span>
+                      <label htmlFor={`innovation-${team.id}`} className="text-slate-400 font-medium">Innovation</label>
                       <span className="font-mono font-bold text-emerald-400">{rubric.innovation}/10</span>
                     </div>
                     <input
+                      id={`innovation-${team.id}`}
                       type="range"
                       min="1"
                       max="10"
                       value={rubric.innovation}
+                      aria-label={`Innovation score for ${team.name} (1 to 10)`}
                       onChange={(e) => updateRubricField(team.id, 'innovation', Number(e.target.value))}
-                      className="w-full accent-emerald-500"
+                      className="w-full accent-emerald-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 rounded"
                     />
                   </div>
 
                   <div>
                     <div className="flex justify-between text-xs mb-1">
-                      <span className="text-slate-400 font-medium">Technical</span>
+                      <label htmlFor={`technical-${team.id}`} className="text-slate-400 font-medium">Technical</label>
                       <span className="font-mono font-bold text-emerald-400">{rubric.technical}/10</span>
                     </div>
                     <input
+                      id={`technical-${team.id}`}
                       type="range"
                       min="1"
                       max="10"
                       value={rubric.technical}
+                      aria-label={`Technical score for ${team.name} (1 to 10)`}
                       onChange={(e) => updateRubricField(team.id, 'technical', Number(e.target.value))}
-                      className="w-full accent-emerald-500"
+                      className="w-full accent-emerald-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 rounded"
                     />
                   </div>
 
                   <div>
                     <div className="flex justify-between text-xs mb-1">
-                      <span className="text-slate-400 font-medium">Polish & UX</span>
+                      <label htmlFor={`polish-${team.id}`} className="text-slate-400 font-medium">Polish & UX</label>
                       <span className="font-mono font-bold text-emerald-400">{rubric.polish}/10</span>
                     </div>
                     <input
+                      id={`polish-${team.id}`}
                       type="range"
                       min="1"
                       max="10"
                       value={rubric.polish}
+                      aria-label={`Polish and UX score for ${team.name} (1 to 10)`}
                       onChange={(e) => updateRubricField(team.id, 'polish', Number(e.target.value))}
-                      className="w-full accent-emerald-500"
+                      className="w-full accent-emerald-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 rounded"
                     />
                   </div>
 
                   <div>
                     <div className="flex justify-between text-xs mb-1">
-                      <span className="text-slate-400 font-medium">Impact</span>
+                      <label htmlFor={`impact-${team.id}`} className="text-slate-400 font-medium">Impact</label>
                       <span className="font-mono font-bold text-emerald-400">{rubric.impact}/10</span>
                     </div>
                     <input
+                      id={`impact-${team.id}`}
                       type="range"
                       min="1"
                       max="10"
                       value={rubric.impact}
+                      aria-label={`Impact score for ${team.name} (1 to 10)`}
                       onChange={(e) => updateRubricField(team.id, 'impact', Number(e.target.value))}
-                      className="w-full accent-emerald-500"
+                      className="w-full accent-emerald-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 rounded"
                     />
                   </div>
                 </div>
 
                 {/* Feedback Input & Direct Submit */}
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                  <label htmlFor={`feedback-${team.id}`} className="sr-only">Feedback</label>
                   <input
+                    id={`feedback-${team.id}`}
                     type="text"
                     placeholder="Optional feedback comment for the team..."
                     value={rubric.feedback}
+                    aria-label={`Feedback comment for ${team.name}`}
                     onChange={(e) => updateRubricField(team.id, 'feedback', e.target.value)}
-                    className="flex-1 px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
+                    className="flex-1 px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus-visible:ring-2 focus-visible:ring-emerald-400"
                   />
 
                   <div className="flex items-center justify-between sm:justify-end gap-3 shrink-0">
@@ -243,7 +256,8 @@ export const JudgeView: React.FC = () => {
 
                     <button
                       onClick={() => handleScoreSubmit(team)}
-                      className="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold shadow-md transition-all cursor-pointer"
+                      aria-label={`${isScored ? 'Update' : 'Submit'} rubric score for ${team.name}`}
+                      className="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold shadow-md transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
                     >
                       <Send className="w-3.5 h-3.5" />
                       <span>{isScored ? 'Update Score' : 'Submit Score'}</span>

@@ -30,7 +30,8 @@ export const DisruptionSelector: React.FC = () => {
         {simulationState === 'healthy' ? (
           <button
             onClick={simulateDisruption}
-            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold shadow-lg shadow-amber-950/50 transition-all cursor-pointer"
+            aria-label="Simulate Judge 3 dropout disruption scenario"
+            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold shadow-lg shadow-amber-950/50 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
           >
             <UserX className="w-4 h-4" />
             <span>Trigger Judge 3 Dropout (Simulate)</span>
@@ -44,8 +45,8 @@ export const DisruptionSelector: React.FC = () => {
 
             <button
               onClick={resetSimulation}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium border border-slate-700 transition-colors cursor-pointer"
-              title="Reset simulation to healthy state"
+              aria-label="Reset simulation to healthy baseline state"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium border border-slate-700 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
             >
               <RotateCcw className="w-3.5 h-3.5" />
               <span>Reset</span>
