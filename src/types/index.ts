@@ -8,6 +8,10 @@ export type JudgeStatus = 'available' | 'judging' | 'unavailable' | 'overloaded'
 
 export type SubmissionStatus = 'queued' | 'in_review' | 'scored';
 
+export type ApplicantSkill = 'Frontend' | 'Backend' | 'AI / Data' | 'Product / UX';
+
+export type ExperienceLevel = 'Junior' | 'Mid' | 'Senior';
+
 export interface CriteriaScore {
   innovation: number;   // 1 - 10
   technical: number;    // 1 - 10
@@ -76,6 +80,25 @@ export interface CheckInResult {
   success: boolean;
   message: string;
   team?: Team;
+}
+
+export interface Applicant {
+  id: string;
+  name: string;
+  primarySkill: ApplicantSkill;
+  secondarySkill: ApplicantSkill;
+  trackPreference: Track;
+  experienceLevel: ExperienceLevel;
+  available: boolean;
+}
+
+export interface FormedTeam {
+  id: string;
+  name: string;
+  members: Applicant[];
+  dominantTrack: Track;
+  skillsCovered: ApplicantSkill[];
+  rationale: string;
 }
 
 export interface EventContextType {

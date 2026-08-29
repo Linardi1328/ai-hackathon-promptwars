@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useEventContext } from '../../context/EventContext';
-import { QrCode, CheckCircle2, AlertTriangle, XCircle, ArrowRight, Sparkles, UserCheck } from 'lucide-react';
+import { QrCode, CheckCircle2, AlertTriangle, XCircle, Sparkles } from 'lucide-react';
 
 export const CheckInConsole: React.FC = () => {
   const { teams, checkInTeam } = useEventContext();
@@ -61,7 +61,7 @@ export const CheckInConsole: React.FC = () => {
               </span>
             </div>
             <p className="text-xs text-slate-400">
-              Live registration pass code validation and team attendance tracking
+              In-session registration pass validation and team attendance tracking
             </p>
           </div>
         </div>

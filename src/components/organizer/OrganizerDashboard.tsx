@@ -3,6 +3,7 @@ import { EventHealth } from './EventHealth';
 import { EventTwin } from './EventTwin';
 import { OpsAssistant } from './OpsAssistant';
 import { CheckInConsole } from './CheckInConsole';
+import { TeamFormationLab } from './TeamFormationLab';
 import { QuickMetrics } from './QuickMetrics';
 import { JudgeStatus } from './JudgeStatus';
 import { Announcements } from './Announcements';
@@ -23,13 +24,16 @@ export const OrganizerDashboard: React.FC = () => {
       {/* 4. Registration & Check-In Console */}
       <CheckInConsole />
 
-      {/* 5. Quick Metrics Bar */}
+      {/* 5. Pre-Event Smart Team Formation Lab */}
+      <TeamFormationLab />
+
+      {/* 6. Quick Metrics Bar */}
       <QuickMetrics />
 
-      {/* 6. Judge Status Grid */}
+      {/* 7. Judge Status Grid */}
       <JudgeStatus />
 
-      {/* 7. Announcements & Live Leaderboard */}
+      {/* 8. Announcements & Live Leaderboard */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
         <div className="lg:col-span-4">
           <Announcements />
