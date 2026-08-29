@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEventContext } from '../../context/EventContext';
-import { AlertTriangle, RotateCcw, Cpu, UserX } from 'lucide-react';
+import { AlertTriangle, RotateCcw, Cpu, UserX, CheckCircle2 } from 'lucide-react';
 
 export const DisruptionSelector: React.FC = () => {
   const { simulationState, simulateDisruption, resetSimulation } = useEventContext();
@@ -36,11 +36,27 @@ export const DisruptionSelector: React.FC = () => {
             <UserX className="w-4 h-4" />
             <span>Trigger Judge 3 Dropout (Simulate)</span>
           </button>
-        ) : (
+        ) : simulationState === 'disrupted' ? (
           <div className="flex items-center gap-2 w-full">
             <div className="flex-1 flex items-center gap-1.5 px-3 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold">
               <AlertTriangle className="w-3.5 h-3.5 text-amber-400 shrink-0" />
               <span>Disruption Active</span>
+            </div>
+
+            <button
+              onClick={resetSimulation}
+              aria-label="Reset simulation to healthy baseline state"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium border border-slate-700 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+            >
+              <RotateCcw className="w-3.5 h-3.5" />
+              <span>Reset</span>
+            </button>
+          </div>
+        ) : (
+          <div className="flex items-center gap-2 w-full">
+            <div className="flex-1 flex items-center gap-1.5 px-3 py-2 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-semibold">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+              <span>Disruption Resolved</span>
             </div>
 
             <button

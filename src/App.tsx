@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { EventProvider, useEventContext } from './context/EventContext';
 import { Header } from './components/layout/Header';
 import { OrganizerDashboard } from './components/organizer/OrganizerDashboard';
@@ -9,8 +9,13 @@ import { Sparkles } from 'lucide-react';
 const MainView: React.FC = () => {
   const { activeRole } = useEventContext();
 
+  // Reset scroll position immediately when changing roles
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, [activeRole]);
+
   return (
-    <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+    <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 pt-4 sm:pt-6">
       {activeRole === 'organizer' && <OrganizerDashboard />}
       {activeRole === 'judge' && <JudgeView />}
       {activeRole === 'participant' && <ParticipantView />}
@@ -33,7 +38,7 @@ export function App() {
             </div>
             <div className="text-slate-500 flex items-center gap-1.5">
               <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Reactive Shared State Engine (Zero Backend)</span>
+              <span>Reactive Shared Event State • Frontend Prototype</span>
             </div>
           </div>
         </footer>
