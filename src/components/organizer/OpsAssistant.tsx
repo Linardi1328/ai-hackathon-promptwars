@@ -1,80 +1,80 @@
 import React, { useState } from 'react';
 import { useEventContext } from '../../context/EventContext';
-import { Bot, AlertTriangle, HelpCircle, FileText, Send, CheckCircle2, Sparkles, ArrowRight } from 'lucide-react';
+import { Bot, AlertTriangle, HelpCircle, FileText, Send, CheckCircle2, Sparkles } from 'lucide-react';
 
 type AssistantQuery = 'risk' | 'recovery' | 'announcement';
 
 export const OpsAssistant: React.FC = () => {
   const { simulationState, addAnnouncement } = useEventContext();
   const [activeQuery, setActiveQuery] = useState<AssistantQuery>('risk');
-  const [broadcastSent, setBroadcastSent] = useState<boolean>(false);
+  const [announcementPosted, setAnnouncementPosted] = useState<boolean>(false);
 
-  // Derive responses deterministically from current simulationState
+  // Derive responses deterministically based on EventContext state
   const getAssistantResponse = () => {
     switch (simulationState) {
       case 'disrupted':
         return {
           risk: {
-            title: 'Critical Disruption Risk Analysis',
-            tag: 'High Risk • Immediate Action Needed',
+            title: 'Disruption Risk Analysis',
+            tag: 'Critical • 62% Health',
             tagColor: 'bg-rose-500/20 text-rose-300 border-rose-500/30',
-            content: 'Judge 3 (Marcus Vance) is unavailable, stranding 5 finalist teams. This introduces a projected +28 minute schedule overrun, threatening the 17:15 deliberation cutoff and leaderboard finalization.',
+            content: 'Judge 3 (Marcus Vance) is unavailable with 5 affected teams stranded. Predicted schedule delay has increased to 28 minutes, dropping event health to 62%. Remaining evaluators face projected overload risk, placing leaderboard finalization at risk.',
             metrics: [
               { label: 'Stranded Teams', value: '5 Teams', color: 'text-rose-400' },
               { label: 'Projected Delay', value: '+28 Mins', color: 'text-amber-400' },
-              { label: 'Cutoff Impact', value: 'Overrun Risk', color: 'text-rose-400' },
+              { label: 'Event Health', value: '62% (Warning)', color: 'text-rose-400' },
             ]
           },
           recovery: {
-            title: 'Rebalancing Recommendation Rationale',
-            tag: 'Optimization Heuristic',
+            title: 'Recovery Plan Rationale',
+            tag: 'Redistribution Heuristic',
             tagColor: 'bg-amber-500/20 text-amber-300 border-amber-500/30',
-            content: 'To clear the 5 stranded teams without bottlenecking any single judge, the system recommends redistributing teams across available evaluators by track match: Dr. Sarah Chen (+2 teams), David Kim (+1 team), and Dr. Elena Rostova (+2 teams).',
+            content: 'The recommended recovery plan redistributes the 5 affected teams: Judge 1 receives 2 affected teams (AI Track), Judge 2 receives 1 affected team (DevTools), and Judge 4 receives 2 affected teams (Systems). This reduces concentration on the unavailable evaluator and balances the remaining queues.',
             metrics: [
-              { label: 'Redistributed', value: '5 Teams', color: 'text-emerald-400' },
-              { label: 'Remaining Delay', value: '4 Mins', color: 'text-emerald-400' },
-              { label: 'Time Saved', value: '24 Mins', color: 'text-emerald-400' },
+              { label: 'Judge 1 (Chen)', value: '+2 Teams', color: 'text-emerald-400' },
+              { label: 'Judge 2 (Kim)', value: '+1 Team', color: 'text-emerald-400' },
+              { label: 'Judge 4 (Rostova)', value: '+2 Teams', color: 'text-emerald-400' },
             ]
           },
           announcement: {
-            title: 'Draft: Evaluator Adjustment Notice',
-            tag: 'Participant Broadcast Draft',
-            tagColor: 'bg-indigo-500/20 text-indigo-300 border-indigo-500/30',
-            subject: 'Schedule Update: Evaluator Assignments Adjusting',
-            content: 'Attention teams: Evaluator room assignments are currently being adjusted for Round 1 judging. Please check your dashboard for updated studio assignments. Presentations will resume promptly.',
+            title: 'Draft Participant Operational Update',
+            tag: 'Operational Notice',
+            tagColor: 'bg-amber-500/20 text-amber-300 border-amber-500/30',
+            subject: 'Schedule Adjustment: Evaluator Reassignments',
+            content: 'Evaluator room assignments are currently being adjusted for Round 1. Affected teams will receive updated assignments on their dashboard. Minor schedule delays may occur as queues rebalance.',
             priority: 'urgent' as const,
           }
         };
       case 'recovered':
         return {
           risk: {
-            title: 'Post-Recovery Operational Assessment',
-            tag: 'Stabilized • Low Risk',
+            title: 'Post-Recovery Risk Assessment',
+            tag: 'Mitigated • 94% Health',
             tagColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
-            content: 'The major disruption is resolved. Schedule overrun has been mitigated to only 4 minutes, and event health is restored to 94%. Evaluator workloads are balanced at 2–3 teams per judge.',
+            content: 'The primary disruption has been resolved. Only 4 minutes projected delay remains with event health restored to 94%. Judge 3 remains unavailable, but all 5 affected teams have valid reassigned evaluators.',
             metrics: [
-              { label: 'Residual Delay', value: '+4 Mins', color: 'text-emerald-400' },
-              { label: 'Event Health', value: '94%', color: 'text-emerald-400' },
-              { label: 'Workload Balance', value: 'Optimal (2-3/judge)', color: 'text-emerald-400' },
+              { label: 'Projected Delay', value: '4 Mins', color: 'text-emerald-400' },
+              { label: 'Event Health', value: '94% (Restored)', color: 'text-emerald-400' },
+              { label: 'Reassigned Teams', value: '5 / 5 Covered', color: 'text-emerald-400' },
             ]
           },
           recovery: {
             title: 'Applied Recovery Impact Breakdown',
-            tag: 'Recovery Analysis',
+            tag: 'Payoff Analysis',
             tagColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
-            content: 'By redistributing 5 teams across Judges 1, 2, and 4, the recovery plan recovered 24 minutes of delay, improved event health from 62% to 94%, and protected leaderboard finalization.',
+            content: 'By redistributing the 5 teams across Judges 1, 2, and 4, predicted delay improved from 28 to 4 minutes (24 minutes recovered) and event health improved from 62% to 94%.',
             metrics: [
               { label: 'Delay Reduction', value: '28m → 4m', color: 'text-emerald-400' },
-              { label: 'Recovered Time', value: '⚡ 24 Mins', color: 'text-emerald-400' },
-              { label: 'Health Restoration', value: '+32% Gain', color: 'text-emerald-400' },
+              { label: 'Time Recovered', value: '⚡ 24 Mins', color: 'text-emerald-400' },
+              { label: 'Health Delta', value: '+32% Gain', color: 'text-emerald-400' },
             ]
           },
           announcement: {
-            title: 'Draft: Schedule Normalization Update',
-            tag: 'Participant Broadcast Draft',
+            title: 'Draft Participant Operational Update',
+            tag: 'Normalization Notice',
             tagColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
-            subject: 'Notice: Evaluator Assignments Updated',
-            content: 'Evaluator room assignments have been updated. Round 1 presentations are underway with minimal schedule delay (~4 min). Please proceed to your assigned evaluation studios.',
+            subject: 'Judging Resumed: Evaluator Assignments Updated',
+            content: 'Evaluator assignments have been updated and affected teams have been reassigned. Schedule impact has been reduced to approximately 4 minutes, and judging is returning to normal operations.',
             priority: 'normal' as const,
           }
         };
@@ -82,33 +82,33 @@ export const OpsAssistant: React.FC = () => {
       default:
         return {
           risk: {
-            title: 'Nominal Operations Risk Assessment',
-            tag: 'Baseline Nominal',
+            title: 'Nominal Operational Risk Assessment',
+            tag: 'Nominal • 96% Health',
             tagColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
-            content: 'Operations are healthy (96% index, +0 min delay). However, Judge 3 (Marcus Vance) holds the largest queue concentration with 5 of 8 finalist teams assigned to Studio C, representing a single point of failure if availability changes.',
+            content: 'Operations are healthy with event health at 96% and predicted delay at 0 minutes. All 4 judges are available. However, Judge 3 (Marcus Vance) currently carries the largest queue concentration with 5 teams, making evaluator availability the largest current operational exposure.',
             metrics: [
-              { label: 'Current Delay', value: '+0 Mins', color: 'text-emerald-400' },
-              { label: 'Evaluators Online', value: '4 / 4', color: 'text-emerald-400' },
-              { label: 'Queue Hotspot', value: 'Judge 3 (5 Teams)', color: 'text-amber-400' },
+              { label: 'Projected Delay', value: '0 Mins', color: 'text-emerald-400' },
+              { label: 'Available Judges', value: '4 / 4 Online', color: 'text-emerald-400' },
+              { label: 'Queue Exposure', value: 'Judge 3 (5 Teams)', color: 'text-amber-400' },
             ]
           },
           recovery: {
             title: 'Recovery Strategy Status',
-            tag: 'Standby',
+            tag: 'Monitoring Standby',
             tagColor: 'bg-slate-800 text-slate-300 border-slate-700',
-            content: 'No recovery action is currently required. The judging schedule is running on time (16:30) with all 4 evaluators available and evaluating assigned teams at nominal pace.',
+            content: 'No recovery action is currently required. Event Twin is monitoring the current judge/team allocation and queue pacing in real time.',
             metrics: [
               { label: 'Recovery Status', value: 'Standby', color: 'text-slate-400' },
-              { label: 'Schedule Pace', value: 'On Time', color: 'text-emerald-400' },
+              { label: 'Schedule Pace', value: 'Nominal', color: 'text-emerald-400' },
               { label: 'Action Required', value: 'None', color: 'text-slate-400' },
             ]
           },
           announcement: {
-            title: 'Draft: Nominal Operations Notice',
-            tag: 'Participant Broadcast Draft',
+            title: 'Draft Participant Operational Update',
+            tag: 'Routine Notice',
             tagColor: 'bg-indigo-500/20 text-indigo-300 border-indigo-500/30',
-            subject: 'Judging Round 1 On Track',
-            content: 'Round 1 project judging is operating normally across all studios. Please remain near your assigned tables and monitor the live board for announcements.',
+            subject: 'Judging Schedule On Track',
+            content: 'Judging is operating normally across all evaluation rooms. Please monitor the live board and announcements for any schedule or assignment changes.',
             priority: 'normal' as const,
           }
         };
@@ -117,10 +117,10 @@ export const OpsAssistant: React.FC = () => {
 
   const responseData = getAssistantResponse();
 
-  const handleBroadcast = (subject: string, content: string, priority: 'normal' | 'urgent') => {
+  const handlePostAnnouncement = (subject: string, content: string, priority: 'normal' | 'urgent') => {
     addAnnouncement(subject, content, priority, 'all');
-    setBroadcastSent(true);
-    setTimeout(() => setBroadcastSent(false), 3000);
+    setAnnouncementPosted(true);
+    setTimeout(() => setAnnouncementPosted(false), 3000);
   };
 
   return (
@@ -138,7 +138,7 @@ export const OpsAssistant: React.FC = () => {
               </h3>
               <span className="inline-flex items-center gap-1 text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
                 <Sparkles className="w-2.5 h-2.5" />
-                Context-Aware Assistant
+                Context-Aware Ops Assistant
               </span>
             </div>
             <p className="text-xs text-slate-400">
@@ -157,7 +157,7 @@ export const OpsAssistant: React.FC = () => {
         <button
           onClick={() => setActiveQuery('risk')}
           aria-pressed={activeQuery === 'risk'}
-          aria-label="Ask assistant: What is the biggest operational risk?"
+          aria-label="What is the biggest risk?"
           className={`flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs font-semibold border transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 ${
             activeQuery === 'risk'
               ? 'bg-slate-800 text-amber-300 border-amber-500/40 shadow-sm shadow-amber-950/40'
@@ -171,7 +171,7 @@ export const OpsAssistant: React.FC = () => {
         <button
           onClick={() => setActiveQuery('recovery')}
           aria-pressed={activeQuery === 'recovery'}
-          aria-label="Ask assistant: Why this recovery plan?"
+          aria-label="Why this recovery plan?"
           className={`flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs font-semibold border transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 ${
             activeQuery === 'recovery'
               ? 'bg-slate-800 text-emerald-300 border-emerald-500/40 shadow-sm shadow-emerald-950/40'
@@ -185,7 +185,7 @@ export const OpsAssistant: React.FC = () => {
         <button
           onClick={() => setActiveQuery('announcement')}
           aria-pressed={activeQuery === 'announcement'}
-          aria-label="Ask assistant: Draft participant update"
+          aria-label="Draft participant update"
           className={`flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs font-semibold border transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 ${
             activeQuery === 'announcement'
               ? 'bg-slate-800 text-cyan-300 border-cyan-500/40 shadow-sm shadow-cyan-950/40'
@@ -198,7 +198,10 @@ export const OpsAssistant: React.FC = () => {
       </div>
 
       {/* Query Response Content Card */}
-      <div className="bg-slate-950/90 rounded-xl p-4 border border-slate-800/80 space-y-3">
+      <div 
+        className="bg-slate-950/90 rounded-xl p-4 border border-slate-800/80 space-y-3"
+        aria-live="polite"
+      >
         {activeQuery === 'risk' && (
           <div className="space-y-2.5">
             <div className="flex items-center justify-between">
@@ -279,35 +282,35 @@ export const OpsAssistant: React.FC = () => {
               </p>
             </div>
 
-            {/* 1-Click Broadcast Action */}
+            {/* Post Announcement Action */}
             <div className="flex items-center justify-between gap-3 pt-1">
               <span className="text-[11px] text-slate-500">
                 Target: <span className="text-slate-300">All Participants & Judges</span>
               </span>
 
               <button
-                onClick={() => handleBroadcast(
+                onClick={() => handlePostAnnouncement(
                   responseData.announcement.subject,
                   responseData.announcement.content,
                   responseData.announcement.priority
                 )}
-                disabled={broadcastSent}
-                aria-label="Broadcast this generated update to all event participants"
+                disabled={announcementPosted}
+                aria-label="Post Announcement to all event participants"
                 className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 ${
-                  broadcastSent
+                  announcementPosted
                     ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
                     : 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-md shadow-emerald-950/50'
                 }`}
               >
-                {broadcastSent ? (
+                {announcementPosted ? (
                   <>
                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                    <span>Broadcasted to Feed</span>
+                    <span>Announcement Posted</span>
                   </>
                 ) : (
                   <>
                     <Send className="w-3.5 h-3.5" />
-                    <span>Broadcast to Event</span>
+                    <span>Post Announcement</span>
                   </>
                 )}
               </button>

@@ -7,7 +7,7 @@ const wrapper = ({ children }: { children: React.ReactNode }) => (
   <EventProvider>{children}</EventProvider>
 );
 
-describe('Event Twin Simulation State Transitions', () => {
+describe('Event Twin Simulation State Transitions & Ops Assistant', () => {
   it('1. Initializes in Healthy state with 96% health and 0 min delay', () => {
     const { result } = renderHook(() => useEventContext(), { wrapper });
 
@@ -145,5 +145,25 @@ describe('Event Twin Simulation State Transitions', () => {
     );
     expect(manualAnnouncement).toBeDefined();
     expect(manualAnnouncement?.content).toBe('Audio-visual crew conducting 5-min test on stage.');
+  });
+
+  it('5. Post Announcement from Ops Assistant publishes to shared announcement state', () => {
+    const { result } = renderHook(() => useEventContext(), { wrapper });
+
+    const initialAnnouncementCount = result.current.announcements.length;
+
+    act(() => {
+      result.current.addAnnouncement(
+        'Schedule Adjustment: Evaluator Reassignments',
+        'Evaluator room assignments are currently being adjusted for Round 1.',
+        'urgent',
+        'all'
+      );
+    });
+
+    expect(result.current.announcements.length).toBe(initialAnnouncementCount + 1);
+    const newest = result.current.announcements[0];
+    expect(newest.title).toBe('Schedule Adjustment: Evaluator Reassignments');
+    expect(newest.priority).toBe('urgent');
   });
 });
