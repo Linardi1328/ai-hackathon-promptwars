@@ -14,7 +14,7 @@
 
 **Smart Event Management**
 
-Event Twin focuses on live event operations for hackathons and large technology events. It bridges the gap between static event dashboards and actionable contingency planning through a digital operational twin with disruption simulation and a context-aware operations assistant.
+Event Twin focuses on live event operations for hackathons and large technology events. It bridges the gap between static event dashboards and actionable contingency planning through a digital operational twin with disruption simulation, a context-aware operations assistant, and interactive pass check-in verification.
 
 ---
 
@@ -28,9 +28,9 @@ While traditional operations dashboards show **what is currently happening**, th
 
 ## Solution
 
-Event Twin unifies event operations into a single operational control plane and adds an **operational disruption simulation layer** paired with a **Context-Aware Ops Assistant**.
+Event Twin unifies event operations into a single operational control plane and adds an **operational disruption simulation layer** paired with a **Context-Aware Ops Assistant** and **Interactive Pass Check-In Console**.
 
-Instead of waiting for bottlenecks to derail the event, organizers can simulate operational disruptions in advance, forecast schedule delays, evaluate recovery recommendations, and generate participant updates with a single click.
+Instead of waiting for bottlenecks to derail the event, organizers can simulate operational disruptions in advance, forecast schedule delays, evaluate recovery recommendations, verify participant check-ins, and generate announcements with a single click.
 
 ---
 
@@ -38,7 +38,7 @@ Instead of waiting for bottlenecks to derail the event, organizers can simulate 
 
 Event Twin uses a shared event state containing:
 - **Judges** (availability, assigned queues, capacity)
-- **Teams** (tracks, table assignments, evaluator links)
+- **Teams** (tracks, table assignments, evaluator links, check-in status, pass codes)
 - **Assignments** (active mapping of teams to judges)
 - **Scores** (multi-criteria rubric evaluations and feedback)
 - **Announcements** (broadcast logs and notices)
@@ -62,9 +62,9 @@ For the current Judge 3 scenario:
 
 Event Twin operates through three interconnected role experiences powered by a shared in-memory state engine (`EventContext`):
 
-- **Organizer Dashboard (Primary Cockpit)**: Contains the centerpiece **Event Twin Simulation Hub**, the **Context-Aware Ops Assistant**, health telemetry gauge, evaluator workload comparison, attendance metrics, and announcement broadcaster.
+- **Organizer Dashboard (Primary Cockpit)**: Contains the centerpiece **Event Twin Simulation Hub**, the **Context-Aware Ops Assistant**, the **Registration & Check-In Console**, health telemetry gauge, evaluator workload comparison, dynamic attendance metrics, and announcement broadcaster.
 - **Judge Portal**: Provides assigned submission lists and direct in-card 4-factor rubric scoring with instant in-session updates to the shared leaderboard.
-- **Participant Hub**: Provides a static QR-style digital pass prototype, table assignment, assigned evaluator room details, broadcast notices, and in-session standings.
+- **Participant Hub**: Provides a digital pass prototype with pass code verification, table assignment, assigned evaluator room details, broadcast notices, and in-session standings.
 
 ---
 
@@ -79,6 +79,18 @@ Event Twin acts as a **digital operational twin** for live events—currently mo
 - **Impact Predicted**: Event Twin flags **5 affected teams**, forecasts a **28-minute schedule delay**, shows projected overload risk for remaining judges, and drops event health to **62%**.
 - **Recovery Plan Recommended**: Event Twin presents a predefined recovery recommendation redistributing affected teams across available judges.
 - **Plan Applied**: The organizer applies the recovery plan. Predicted delay drops to **4 minutes**, **24 minutes are recovered**, judge workloads update, and event health rises to **94%**.
+
+---
+
+## Interactive Check-In & Digital Pass Prototype
+
+Event Twin features a frontend **QR & Pass Verification Console** connecting organizer attendance operations with participant passes:
+
+- **Shared Attendance State**: 8 demo finalist teams each receive a unique registration pass code (`TEAM-001` through `TEAM-008`).
+- **Real-Time Validation**: Organizers can enter or quick-fill demo pass codes (e.g. `TEAM-007` for *ShieldOps*).
+- **Duplicate & Invalid Pass Protection**: Validates against already checked-in codes and non-existent passes with instant feedback.
+- **Live Metrics Synchronization**: Dynamic check-in counter and attendance percentage update instantly across all views.
+- **State Persistence**: Team check-in statuses are preserved across Event Twin simulation resets.
 
 ---
 
@@ -100,6 +112,7 @@ The **Context-Aware Ops Assistant** provides situational analysis and communicat
 - **Event Health** monitoring and dynamic delay forecasting.
 - **Event Twin Simulation Hub**: Disruption injection, downstream impact preview, judge workload comparison, and recovery plan application.
 - **Context-Aware Ops Assistant**: State-driven risk analysis, recovery rationale, and 1-click participant announcement drafting.
+- **Registration & Check-In Console**: Pass code validation, live attendance count, and team check-in status.
 - **Judge Status**: Evaluator availability and queue workload overview.
 - **Announcements**: In-session broadcast publishing.
 - **Leaderboard**: Aggregated finalist standings.
@@ -110,7 +123,7 @@ The **Context-Aware Ops Assistant** provides situational analysis and communicat
 - Qualitative feedback input with instant in-session score updates.
 
 ### 3. Participant
-- Static QR-style digital pass prototype.
+- Digital pass prototype with registration pass code and check-in status badge.
 - Team table assignment, track badge, and assigned evaluator details.
 - Broadcast notices.
 - In-session leaderboard with team rank highlight.
@@ -119,16 +132,17 @@ The **Context-Aware Ops Assistant** provides situational analysis and communicat
 
 ## Demo Flow
 
-1. Open the **Organizer View** to observe the healthy event baseline (96% health, 0m delay).
-2. Query the **Ops Assistant** (*"What is the biggest risk?"*) to identify Judge 3's queue concentration (5 teams).
-3. Click **Trigger Judge 3 Dropout (Simulate)** in the Event Twin simulation hub.
-4. Review the **Impact Forecast** (5 affected teams, +28m delay, projected overload risk for remaining judges, health drops to 62%).
-5. Query the **Ops Assistant** (*"Draft participant update"*) and click **Post Announcement** to broadcast an operational adjustment notice to all teams.
-6. Click **Apply Recovery Plan** to apply the predefined redistribution across Judges 1, 2, and 4.
-7. Observe the updated metrics: delay reduced to **4 minutes**, **24 minutes recovered**, and health restored to **94%**.
-8. Switch to the **Judge Portal** (e.g. Dr. Sarah Chen) to review rebalanced submissions and score a project using the inline rubric.
-9. Switch to the **Participant Hub** to verify that team assignments, broadcast notices, and leaderboard standings reflect instant frontend synchronization.
-10. Click **Reset** in the Organizer View to return the simulation state to baseline while preserving recorded scores and manual announcements.
+1. Open the **Organizer View** to observe the healthy event baseline (96% health, 0m delay, 6/8 check-in baseline).
+2. Use the **Check-In Console** to check in Team 7 (*ShieldOps*) using demo pass `TEAM-007`. Observe attendance increase to 7/8 (88%).
+3. Switch to the **Participant Hub** (*ShieldOps*) to verify the digital pass updates from *Not Checked In* to *Checked In*.
+4. Return to the **Organizer View** and query the **Ops Assistant** (*"What is the biggest risk?"*) to inspect queue concentration.
+5. Click **Trigger Judge 3 Dropout (Simulate)** in the Event Twin simulation hub.
+6. Review the **Impact Forecast** (5 affected teams, +28m delay, projected overload risk for remaining judges, health drops to 62%).
+7. Query the **Ops Assistant** (*"Draft participant update"*) and click **Post Announcement** to broadcast an operational adjustment notice to all teams.
+8. Click **Apply Recovery Plan** to apply the predefined redistribution across Judges 1, 2, and 4.
+9. Observe the updated metrics: delay reduced to **4 minutes**, **24 minutes recovered**, and health restored to **94%**.
+10. Switch to the **Judge Portal** (e.g. Dr. Sarah Chen) to review rebalanced submissions and score a project using the inline rubric.
+11. Click **Reset** in the Organizer View to return the simulation state to baseline while preserving check-in states, recorded scores, and manual announcements.
 
 ---
 
@@ -139,9 +153,9 @@ Event Twin is built as a single-page application using shared React Context to p
 ```mermaid
 flowchart TD
     subgraph UI_Roles["Role Interfaces"]
-        Participant["Participant Hub\n(Static QR Pass Prototype, Team Status, Standings)"]
+        Participant["Participant Hub\n(Digital Pass Prototype, Team Status, Standings)"]
         Judge["Judge Portal\n(Inline Rubrics, Feedback, Grading)"]
-        Organizer["Organizer Command Center\n(Event Health, Telemetry, Broadcasts)"]
+        Organizer["Organizer Command Center\n(Event Health, Telemetry, Check-In, Broadcasts)"]
     end
 
     subgraph Core_Twin["Event Twin Simulation Hub & Assistant"]
@@ -150,13 +164,15 @@ flowchart TD
         Organizer --> Workload["Workload Comparison"]
         Organizer --> Recovery["Recovery Plan Engine"]
         Organizer --> Assistant["Context-Aware Ops Assistant"]
+        Organizer --> CheckIn["Registration & Check-In Console"]
     end
 
     subgraph State_Layer["Shared React State (EventContext)"]
         EventState["Event State Store"]
-        EventState --- Teams["Teams (8)"]
+        EventState --- Teams["Teams (8) & Pass Codes"]
         EventState --- Judges["Judges (4)"]
         EventState --- Scores["Scores & Rubrics"]
+        EventState --- CheckInState["Check-In Records (6/8)"]
         EventState --- Announcements["Broadcast Notices"]
         EventState --- SimState["Simulation State Machine\n(Healthy | Disrupted | Recovered)"]
     end
@@ -215,7 +231,7 @@ stateDiagram-v2
 
 ## Testing
 
-Event Twin includes automated unit testing powered by Vitest to validate the simulation engine, Ops Assistant, and state persistence:
+Event Twin includes automated unit testing powered by Vitest to validate the simulation engine, Ops Assistant, check-in operations, and state persistence:
 
 - **Test Suite**: Run `npm test`
 - **Simulation Coverage**:
@@ -224,8 +240,9 @@ Event Twin includes automated unit testing powered by Vitest to validate the sim
   - `62% / 28 min / 5 affected teams` disruption impact verification
   - `94% / 4 min / 24 min recovered` recovery execution verification
   - Baseline assignment restoration upon reset
-  - Evaluator scores and manual broadcast announcements **strictly preserved** after simulation reset
+  - Evaluator scores, check-in records, and manual announcements **strictly preserved** after simulation reset
   - **Ops Assistant Component Lifecycle**: Verifies dynamic metric binding across Healthy, Disrupted, and Recovered states
+  - **Interactive Check-In Verification**: Valid pass check-in, duplicate prevention, and invalid pass handling
   - **Announcement Publishing**: Verifies that Ops Assistant announcement drafts post successfully to shared state
 - **Build Verification**: Run `npm run build` (passes with 0 TypeScript/Vite errors)
 
@@ -239,7 +256,7 @@ Event Twin includes automated unit testing powered by Vitest to validate the sim
 - **Tailwind CSS**: Dark-slate operational dashboard interface
 - **Lucide React**: Iconography
 - **React Context**: In-memory shared state engine for reactive in-session updates
-- **Vitest**: Unit testing suite for simulation transitions and assistant state
+- **Vitest**: Unit testing suite for simulation transitions, assistant state, and check-in
 - **Firebase Hosting**: Production single-page application hosting
 
 ---
@@ -252,7 +269,7 @@ The current implementation includes:
 - **No authentication layer** (role switching is available for demo convenience).
 - **No production backend or persistent database** (state lives in memory within the client session).
 - **No real-time optimization solver** (recovery recommendations are deterministic and predefined for the demo scenario).
-- **No hardware QR scanning or real verification** (the participant pass is a static QR-style prototype).
+- **No hardware QR scanning or camera access** (the check-in workflow uses frontend pass code validation and digital pass display).
 - **No production LLM API** (the Ops Assistant uses deterministic, state-derived analysis).
 
 ---
@@ -263,7 +280,7 @@ The current implementation includes:
 - **Automatic Disruption Detection & Live Event Telemetry**: Connecting live check-in and floor sensor data to identify operational bottlenecks automatically.
 - **Real-Time Backend Synchronization**: Multi-client data synchronization via WebSockets or Supabase Realtime for concurrent organizers, evaluators, and participants across separate devices.
 - **Algorithmic Rebalancing**: Applying assignment and optimization techniques such as the Hungarian algorithm or integer programming to match teams to evaluators by domain specialty and availability constraints.
-- **Room and Schedule Disruption Handling**: Dynamic rescheduling across physical rooms and stage presentation blocks.
+- **Physical QR Scanner Integration**: Native mobile and camera QR verification with cryptographic badge signing.
 - **AI-Assisted Recovery Recommendations**: Generating context-aware recovery plans and operational announcements based on schedule drift.
 
 ---
@@ -275,4 +292,4 @@ Event Twin was designed, architected, and built with **Google Antigravity**:
 - **Architecture**: Structuring reactive state to enable instant in-session synchronization across roles without backend overhead.
 - **Implementation**: Rapid scaffolding of TypeScript interfaces, Tailwind styling, and responsive role views.
 - **Verification & Debugging**: Validating state transitions (`Healthy -> Disrupted -> Recovered -> Reset`), type safety, and headless browser testing.
-- **Iterative Refinement**: Isolating simulation resets from user-entered evaluation scores and manual broadcasts.
+- **Iterative Refinement**: Isolating simulation resets from user-entered evaluation scores, check-in data, and manual broadcasts.

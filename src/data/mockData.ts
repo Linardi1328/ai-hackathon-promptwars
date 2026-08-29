@@ -68,6 +68,9 @@ export const INITIAL_TEAMS: Team[] = [
     status: 'queued',
     isAffected: false,
     scores: {},
+    passCode: 'TEAM-001',
+    checkedIn: true,
+    checkedInAt: '14:15',
   },
   {
     id: 'team-2',
@@ -81,6 +84,9 @@ export const INITIAL_TEAMS: Team[] = [
     status: 'queued',
     isAffected: false,
     scores: {},
+    passCode: 'TEAM-002',
+    checkedIn: true,
+    checkedInAt: '14:22',
   },
   {
     id: 'team-3',
@@ -94,6 +100,9 @@ export const INITIAL_TEAMS: Team[] = [
     status: 'queued',
     isAffected: false,
     scores: {},
+    passCode: 'TEAM-003',
+    checkedIn: true,
+    checkedInAt: '14:28',
   },
   {
     id: 'team-4',
@@ -107,6 +116,9 @@ export const INITIAL_TEAMS: Team[] = [
     status: 'queued',
     isAffected: false,
     scores: {},
+    passCode: 'TEAM-004',
+    checkedIn: true,
+    checkedInAt: '14:35',
   },
   {
     id: 'team-5',
@@ -120,6 +132,9 @@ export const INITIAL_TEAMS: Team[] = [
     status: 'queued',
     isAffected: false,
     scores: {},
+    passCode: 'TEAM-005',
+    checkedIn: true,
+    checkedInAt: '14:40',
   },
   {
     id: 'team-6',
@@ -133,6 +148,9 @@ export const INITIAL_TEAMS: Team[] = [
     status: 'queued',
     isAffected: false,
     scores: {},
+    passCode: 'TEAM-006',
+    checkedIn: true,
+    checkedInAt: '14:52',
   },
   {
     id: 'team-7',
@@ -146,6 +164,8 @@ export const INITIAL_TEAMS: Team[] = [
     status: 'queued',
     isAffected: false,
     scores: {},
+    passCode: 'TEAM-007',
+    checkedIn: false,
   },
   {
     id: 'team-8',
@@ -159,6 +179,8 @@ export const INITIAL_TEAMS: Team[] = [
     status: 'queued',
     isAffected: false,
     scores: {},
+    passCode: 'TEAM-008',
+    checkedIn: false,
   },
 ];
 

@@ -31,6 +31,9 @@ export interface Team {
   isAffected?: boolean;    // marked true when assigned judge is unavailable
   scores: Record<string, CriteriaScore>; // judgeId -> score
   averageScore?: number;
+  passCode: string;        // e.g. TEAM-001
+  checkedIn: boolean;
+  checkedInAt?: string;
 }
 
 export interface Judge {
@@ -64,9 +67,15 @@ export interface EventHealthMetrics {
   affectedTeamsCount: number;// 0, 5, 0
   totalTeams: number;
   scoredTeams: number;
-  attendanceRate: number;    // 96%
-  totalAttendees: number;    // 120
-  checkedInAttendees: number;// 115
+  attendanceRate: number;    // Dynamic percentage
+  totalAttendees: number;    // 8
+  checkedInAttendees: number;// 6
+}
+
+export interface CheckInResult {
+  success: boolean;
+  message: string;
+  team?: Team;
 }
 
 export interface EventContextType {
@@ -106,4 +115,6 @@ export interface EventContextType {
     priority: 'urgent' | 'normal' | 'info',
     targetAudience: 'all' | 'judges' | 'participants'
   ) => void;
+
+  checkInTeam: (passCode: string) => CheckInResult;
 }

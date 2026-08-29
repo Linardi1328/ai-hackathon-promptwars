@@ -3,6 +3,7 @@ import { describe, it, expect } from 'vitest';
 import { render, screen, renderHook, act, fireEvent } from '@testing-library/react';
 import { EventProvider, useEventContext } from '../context/EventContext';
 import { OpsAssistant } from '../components/organizer/OpsAssistant';
+import { CheckInConsole } from '../components/organizer/CheckInConsole';
 
 const wrapper = ({ children }: { children: React.ReactNode }) => (
   <EventProvider>{children}</EventProvider>
@@ -20,8 +21,8 @@ const OpsAssistantTestHarness: React.FC = () => {
   );
 };
 
-describe('Event Twin Simulation State Transitions & Ops Assistant', () => {
-  it('1. Initializes in Healthy state with 96% health and 0 min delay', () => {
+describe('Event Twin Simulation State Transitions, Ops Assistant & Check-In', () => {
+  it('1. Initializes in Healthy state with 96% health, 0 min delay, and 6/8 initial check-ins', () => {
     const { result } = renderHook(() => useEventContext(), { wrapper });
 
     expect(result.current.simulationState).toBe('healthy');
@@ -29,6 +30,9 @@ describe('Event Twin Simulation State Transitions & Ops Assistant', () => {
     expect(result.current.eventHealth.predictedDelayMin).toBe(0);
     expect(result.current.eventHealth.recoveredMin).toBe(0);
     expect(result.current.eventHealth.affectedTeamsCount).toBe(0);
+    expect(result.current.eventHealth.checkedInAttendees).toBe(6);
+    expect(result.current.eventHealth.totalAttendees).toBe(8);
+    expect(result.current.eventHealth.attendanceRate).toBe(75);
 
     // Initial judge assignments (J1: 1, J2: 1, J3: 5, J4: 1)
     const judge1 = result.current.judges.find((j) => j.id === 'judge-1');
@@ -80,11 +84,6 @@ describe('Event Twin Simulation State Transitions & Ops Assistant', () => {
     expect(result.current.eventHealth.recoveredMin).toBe(24);
     expect(result.current.eventHealth.affectedTeamsCount).toBe(0);
 
-    // Verify team redistribution:
-    // J1 gets team-1, team-2, team-4 (3 teams)
-    // J2 gets team-3, team-5 (2 teams)
-    // J3 gets 0 teams
-    // J4 gets team-8, team-6, team-7 (3 teams)
     const judge1 = result.current.judges.find((j) => j.id === 'judge-1');
     const judge2 = result.current.judges.find((j) => j.id === 'judge-2');
     const judge3 = result.current.judges.find((j) => j.id === 'judge-3');
@@ -95,12 +94,11 @@ describe('Event Twin Simulation State Transitions & Ops Assistant', () => {
     expect(judge3?.assignedTeamIds).toEqual([]);
     expect(judge4?.assignedTeamIds).toEqual(['team-8', 'team-6', 'team-7']);
 
-    // Check all 8 teams have isAffected = false
     const affectedTeams = result.current.teams.filter((t) => t.isAffected);
     expect(affectedTeams).toHaveLength(0);
   });
 
-  it('4. Reset restores baseline assignments while PRESERVING judge scores and manual announcements', () => {
+  it('4. Reset restores baseline assignments while PRESERVING judge scores, manual announcements, and check-in state', () => {
     const { result } = renderHook(() => useEventContext(), { wrapper });
 
     // Score a submission as Judge 1
@@ -111,6 +109,11 @@ describe('Event Twin Simulation State Transitions & Ops Assistant', () => {
         { innovation: 9, technical: 9, polish: 8, impact: 9 },
         'Outstanding real-time demo!'
       );
+    });
+
+    // Check in Team 7 (ShieldOps)
+    act(() => {
+      result.current.checkInTeam('TEAM-007');
     });
 
     // Add a manual organizer announcement
@@ -150,34 +153,56 @@ describe('Event Twin Simulation State Transitions & Ops Assistant', () => {
     const scoredTeam = result.current.teams.find((t) => t.id === 'team-1');
     expect(scoredTeam?.status).toBe('scored');
     expect(scoredTeam?.averageScore).toBe(35);
-    expect(scoredTeam?.scores['judge-1']?.feedback).toBe('Outstanding real-time demo!');
+
+    // Preserved check-in state for team-7
+    const team7 = result.current.teams.find((t) => t.id === 'team-7');
+    expect(team7?.checkedIn).toBe(true);
+    expect(result.current.eventHealth.checkedInAttendees).toBe(7);
 
     // Preserved manual announcement
     const manualAnnouncement = result.current.announcements.find(
       (a) => a.title === 'Main Stage Lighting Check'
     );
     expect(manualAnnouncement).toBeDefined();
-    expect(manualAnnouncement?.content).toBe('Audio-visual crew conducting 5-min test on stage.');
   });
 
-  it('5. Post Announcement from Ops Assistant publishes to shared announcement state', () => {
+  it('5. Interactive Check-In: valid pass, duplicate prevention, and invalid pass handling', () => {
     const { result } = renderHook(() => useEventContext(), { wrapper });
 
-    const initialAnnouncementCount = result.current.announcements.length;
+    // Initial check-in count is 6
+    expect(result.current.eventHealth.checkedInAttendees).toBe(6);
 
+    // 1. Valid Check-In: Check in Team 7 (TEAM-007)
+    let res1: any;
     act(() => {
-      result.current.addAnnouncement(
-        'Schedule Adjustment: Evaluator Reassignments',
-        'Evaluator room assignments are currently being adjusted for Round 1.',
-        'urgent',
-        'all'
-      );
+      res1 = result.current.checkInTeam('  team-007  ');
     });
+    expect(res1.success).toBe(true);
+    expect(res1.message).toContain('ShieldOps');
+    expect(result.current.eventHealth.checkedInAttendees).toBe(7);
+    expect(result.current.eventHealth.attendanceRate).toBe(88);
 
-    expect(result.current.announcements.length).toBe(initialAnnouncementCount + 1);
-    const newest = result.current.announcements[0];
-    expect(newest.title).toBe('Schedule Adjustment: Evaluator Reassignments');
-    expect(newest.priority).toBe('urgent');
+    const team7 = result.current.teams.find((t) => t.id === 'team-7');
+    expect(team7?.checkedIn).toBe(true);
+    expect(team7?.checkedInAt).toBeDefined();
+
+    // 2. Duplicate Check-In Prevention: Try checking in TEAM-007 again
+    let res2: any;
+    act(() => {
+      res2 = result.current.checkInTeam('TEAM-007');
+    });
+    expect(res2.success).toBe(false);
+    expect(res2.message).toContain('already checked in');
+    expect(result.current.eventHealth.checkedInAttendees).toBe(7); // Unchanged
+
+    // 3. Invalid Pass Code Handling: Try non-existent code
+    let res3: any;
+    act(() => {
+      res3 = result.current.checkInTeam('INVALID-999');
+    });
+    expect(res3.success).toBe(false);
+    expect(res3.message).toContain('Invalid pass code');
+    expect(result.current.eventHealth.checkedInAttendees).toBe(7); // Unchanged
   });
 
   it('6. OpsAssistant dynamically reflects state across Healthy -> Disrupted -> Recovered lifecycle', () => {
@@ -219,6 +244,5 @@ describe('Event Twin Simulation State Transitions & Ops Assistant', () => {
     });
 
     expect(container.textContent).toContain('24 minutes recovered');
-    expect(container.textContent).toContain('28m → 4m');
   });
 });

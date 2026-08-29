@@ -6,6 +6,7 @@ import {
   Judge,
   Announcement,
   EventHealthMetrics,
+  CheckInResult,
   EventContextType,
 } from '../types';
 import {
@@ -26,10 +27,12 @@ export const EventProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [judges, setJudges] = useState<Judge[]>(INITIAL_JUDGES);
   const [announcements, setAnnouncements] = useState<Announcement[]>(INITIAL_ANNOUNCEMENTS);
 
-  // Dynamic Event Health Metrics based on simulation state and scoring
+  // Dynamic Event Health Metrics based on simulation state, scoring, and actual check-in state
   const eventHealth = useMemo<EventHealthMetrics>(() => {
     const scoredCount = teams.filter((t) => t.status === 'scored').length;
+    const checkedInCount = teams.filter((t) => t.checkedIn).length;
     const total = teams.length;
+    const attendancePercentage = total > 0 ? Math.round((checkedInCount / total) * 100) : 0;
 
     if (simulationState === 'disrupted') {
       return {
@@ -40,9 +43,9 @@ export const EventProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         affectedTeamsCount: 5,
         totalTeams: total,
         scoredTeams: scoredCount,
-        attendanceRate: 96,
-        totalAttendees: 120,
-        checkedInAttendees: 115,
+        attendanceRate: attendancePercentage,
+        totalAttendees: total,
+        checkedInAttendees: checkedInCount,
       };
     }
 
@@ -55,9 +58,9 @@ export const EventProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         affectedTeamsCount: 0,
         totalTeams: total,
         scoredTeams: scoredCount,
-        attendanceRate: 96,
-        totalAttendees: 120,
-        checkedInAttendees: 115,
+        attendanceRate: attendancePercentage,
+        totalAttendees: total,
+        checkedInAttendees: checkedInCount,
       };
     }
 
@@ -70,11 +73,54 @@ export const EventProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       affectedTeamsCount: 0,
       totalTeams: total,
       scoredTeams: scoredCount,
-      attendanceRate: 96,
-      totalAttendees: 120,
-      checkedInAttendees: 115,
+      attendanceRate: attendancePercentage,
+      totalAttendees: total,
+      checkedInAttendees: checkedInCount,
     };
   }, [simulationState, teams]);
+
+  // Check-In Team Action
+  const checkInTeam = (passCode: string): CheckInResult => {
+    const cleanCode = passCode.trim().toUpperCase();
+    if (!cleanCode) {
+      return { success: false, message: 'Please enter a pass code.' };
+    }
+
+    const targetTeam = teams.find((t) => t.passCode.toUpperCase() === cleanCode);
+    if (!targetTeam) {
+      return { success: false, message: `Invalid pass code "${cleanCode}". Please verify credentials.` };
+    }
+
+    if (targetTeam.checkedIn) {
+      return {
+        success: false,
+        message: `Team ${targetTeam.name} (${targetTeam.passCode}) is already checked in.`,
+        team: targetTeam,
+      };
+    }
+
+    const now = new Date();
+    const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+    setTeams((prev) =>
+      prev.map((t) => {
+        if (t.id === targetTeam.id) {
+          return {
+            ...t,
+            checkedIn: true,
+            checkedInAt: timeStr,
+          };
+        }
+        return t;
+      })
+    );
+
+    return {
+      success: true,
+      message: `Successfully verified and checked in ${targetTeam.name} (Table #${targetTeam.tableNumber}).`,
+      team: { ...targetTeam, checkedIn: true, checkedInAt: timeStr },
+    };
+  };
 
   // Simulation: Trigger Judge 3 unavailable
   const simulateDisruption = () => {
@@ -189,7 +235,7 @@ export const EventProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setAnnouncements((prev) => [recoveryAnn, ...prev]);
   };
 
-  // Simulation: Reset (Restores only disruption state; preserves judge scores & manual announcements)
+  // Simulation: Reset (Restores only disruption state; PRESERVES check-in status, judge scores & manual announcements)
   const resetSimulation = () => {
     setSimulationState('healthy');
 
@@ -206,7 +252,7 @@ export const EventProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       })
     );
 
-    // Restore team assignedJudgeId to originalJudgeId, clear isAffected, while PRESERVING existing scores & status
+    // Restore team assignedJudgeId to originalJudgeId, clear isAffected, while PRESERVING existing scores, status, and CHECK-IN STATE
     setTeams((prev) =>
       prev.map((team) => ({
         ...team,
@@ -305,6 +351,7 @@ export const EventProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         eventHealth,
         submitJudgeScore,
         addAnnouncement,
+        checkInTeam,
       }}
     >
       {children}
