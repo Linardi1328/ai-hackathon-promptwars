@@ -11,6 +11,43 @@ code, pre, .font-mono {
   font-family: 'JetBrains Mono', monospace;
 }
 
+:where(a[href], button, input, textarea, select, summary, [tabindex]:not([tabindex="-1"])):focus-visible {
+  outline: 3px solid #34d399;
+  outline-offset: 3px;
+}
+
+.event-skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100;
+  transform: translateY(calc(-100% - 2rem));
+  border: 2px solid #34d399;
+  border-radius: 999px;
+  padding: 0.6rem 0.9rem;
+  background: #020617;
+  color: #f8fafc;
+  font-size: 0.8rem;
+  font-weight: 800;
+  transition: transform 120ms ease;
+}
+
+.event-skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+@media (forced-colors: active) {
+  :where(a[href], button, input, textarea, select, summary, [tabindex]:not([tabindex="-1"])):focus-visible {
+    outline-color: CanvasText;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .event-skip-link {
+    transition: none;
+  }
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
